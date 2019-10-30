@@ -7,5 +7,8 @@ namespace NetSpider.Models
     public class BaseSpider
     {
         public string Name { get; set; } = "1905filmSpider";
+
+        public string BaseUrl { get; set; }
+
     }
 }
