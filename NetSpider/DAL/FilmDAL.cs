@@ -19,9 +19,14 @@ namespace NetSpider.DAL
             _config.GetSection("connectioStrings").Bind(Setting);
         }
 
-        public static void GetFilmCount()
+        public void GetFilmCount()
         {
-            string sql = "select count(1) from "
+            string sql = "select count(1) from Film1905";
+            using(IDbConnection connection = new SqlConnection(Setting.MsSqlConnection))
+            {
+                var res = (int)connection.ExecuteScalar(sql);
+                Console.WriteLine(res);
+            }
         }
     }
 }

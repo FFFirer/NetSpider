@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using NetSpider.Models;
 using System.Net.Http;
 using NetSpider.Common;
+using NetSpider.DAL;
+using Microsoft.Extensions.Configuration;
 
 namespace NetSpider.Services
 {
@@ -18,7 +20,9 @@ namespace NetSpider.Services
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Console.WriteLine("Start Spider Service");
-            Seed();
+            // Seed();
+            FilmDAL dal =new FilmDAL(_config);
+            dal.GetFilmCount();
             return Task.CompletedTask;
         }
 
@@ -50,6 +54,7 @@ namespace NetSpider.Services
         /// 提供访问页面的HttpClient工厂
         /// </summary>
         private IHttpClientFactory _factory;
+        private IConfiguration _config;
         private int FilmsPerPage = 30;
         private HttpClient Client;
 
@@ -57,9 +62,10 @@ namespace NetSpider.Services
         /// 构造方法
         /// </summary>
         /// <param name="httpClientFactory"></param>
-        public SipderService(IHttpClientFactory httpClientFactory)
+        public SipderService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _factory = httpClientFactory;
+            _config = configuration;
             Client = _factory.CreateClient("1905");
         }
 
