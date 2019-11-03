@@ -58,7 +58,7 @@ namespace NetSpider.Models
         /// <summary>
         /// 电影拍摄地点
         /// </summary>
-        public string FilmingLocation { get; set; }
+        public string FilmingLocations { get; set; }
         /// <summary>
         /// 用户评分
         /// </summary>

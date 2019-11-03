@@ -19,6 +19,8 @@ namespace NetSpider
                 {
                     configApp.SetBasePath(Environment.CurrentDirectory);
                     configApp.AddJsonFile("appsettings.json");
+                    
+                    
                 })
                 .ConfigureServices((services) =>
                 {
