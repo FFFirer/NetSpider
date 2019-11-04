@@ -60,7 +60,7 @@ namespace NetSpider.Services
         private string SpiderKey = "Film1905";
 
         TimeSpan LetterPauseSpan = new TimeSpan(0, 0, 15);
-        TimeSpan FilmPauseSapn = new TimeSpan(0, 0, 5);
+        TimeSpan FilmPauseSapn = new TimeSpan(0, 0, 1);
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -137,19 +137,20 @@ namespace NetSpider.Services
                 {
                     CategoryInfo CurrentInfo = infos[i];
                     _runningEnv.CurrentIndex = CurrentInfo.CateIndex;
-                    string ListPageUrl = $"/mdb/film/list/enindex-{CurrentInfo.CateIndex}/";
+                    string BasePageUrl = $"/mdb/film/list/enindex-{CurrentInfo.CateIndex}/";
 
                     // 遍历每个字母Index下的页面；
-                    for (int page = CurrentPage; page < CurrentInfo.Pages; page++)
+                    for (int page = CurrentPage; page <= CurrentInfo.Pages; page++)
                     {
                         _runningEnv.CurrentPage = page;
+                        string CurrentPageUrl = BasePageUrl;
                         // 生成电影列表页面链接
                         if (page > 1)
                         {
-                            ListPageUrl += $"o0d0p{page}.html";
+                            CurrentPageUrl = BasePageUrl + $"o0d0p{page}.html";
                         }
                         // 获取页面所有电影链接
-                        FilmListPageHelper listPageHelper = new FilmListPageHelper(Client.GetAsync(ListPageUrl).Result.Content.ReadAsStringAsync().Result);
+                        FilmListPageHelper listPageHelper = new FilmListPageHelper(Client.GetAsync(CurrentPageUrl).Result.Content.ReadAsStringAsync().Result);
                         Dictionary<string, string> films = listPageHelper.GetFilmsUrls();
                         foreach (string filmId in films.Keys)
                         {
@@ -173,7 +174,6 @@ namespace NetSpider.Services
                                     {
                                         logger.Warn($"保存失败，Id:{filmId}, Name:{filmInfo.Name}");
                                     }
-
                                 }
                             }
                             catch (Exception ex)
