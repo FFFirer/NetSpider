@@ -13,16 +13,25 @@ using System.Linq;
 using NLog;
 
 namespace NetSpider.Services
-{
+{   
     /// <summary>
     /// 爬虫主服务
     /// </summary>
     public class SipderService : IHostedService
     {
         ILogger logger = LogManager.GetCurrentClassLogger();
+        IHostApplicationLifetime _appLifeTime;
+
+        public SipderService(IHostApplicationLifetime appLifeTime)
+        {
+            _appLifeTime = appLifeTime;
+
+        }
         public Task StartAsync(CancellationToken cancellationToken)
-         {
-            Console.WriteLine("Start Spider Service");
+        {
+            _appLifeTime.ApplicationStarted.Register(OnStarted);
+            _appLifeTime.ApplicationStopped.Register(OnStoped);
+            _appLifeTime.ApplicationStopping.Register(OnStoping);
             //FilmDAL dal = new FilmDAL(_config);
             //dal.GetFilmCount();
             Seed();
@@ -34,6 +43,21 @@ namespace NetSpider.Services
             SaveRunningEnv();
             logger.Info("Spider Service Stoped");
             return Task.CompletedTask;
+        }
+
+        public void OnStarted()
+        {
+            logger.Info($"{nameof(SipderService)} Started!");
+        }
+
+        public void OnStoping()
+        {
+            logger.Warn($"{nameof(SipderService)} Stopping!");
+        }
+
+        public void OnStoped()
+        {
+            logger.Error($"{nameof(SipderService)} Stoped!");
         }
 
         /// <summary>
@@ -99,7 +123,7 @@ namespace NetSpider.Services
         /// <summary>
         /// 种子方法，把抓取到的页面放进PageUrls
         /// </summary>
-        public void Seed()
+        public void Seed(CancellationToken cancellationToken)
         {
             int FirstLetter = 65;
             int LastLetter = 90;
@@ -133,6 +157,7 @@ namespace NetSpider.Services
             // 遍历字母Index
             for (int i = CurrentCategoryIndex; i < infos.Count; i++)
             {
+                CheckCancelled(cancellationToken);
                 try
                 {
                     CategoryInfo CurrentInfo = infos[i];
@@ -199,6 +224,14 @@ namespace NetSpider.Services
 
             Console.WriteLine("finish");
 
+        }
+
+        public void CheckCancelled(CancellationToken token)
+        {
+            if (token.IsCancellationRequested)
+            {
+                throw new OperationCanceledException(token);
+            }
         }
 
         public void SaveRunningEnv()
