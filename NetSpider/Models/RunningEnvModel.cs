@@ -4,6 +4,9 @@ using System.Text;
 
 namespace NetSpider.Models
 {
+    /// <summary>
+    /// 保存抓取电影的当前运行的信息
+    /// </summary>
     public class RunningEnvModel
     {
         public int Id { get; set; }

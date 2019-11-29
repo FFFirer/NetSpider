@@ -11,16 +11,19 @@ namespace NetSpider.Common
     /// </summary>
     public class FilmListPageHelper : BaseHtmlHelper
     {
+        /// <summary>
+        /// 构造函数，使用父类的构造函数
+        /// </summary>
+        /// <param name="HtmlContent">Html页面的字符串</param>
         public FilmListPageHelper(string HtmlContent) : base(HtmlContent)
         {
 
         }
 
         /// <summary>
-        /// 获取总数
+        /// 获取该页面的所有电影的数量
         /// </summary>
-        /// <param name="content"></param>
-        /// <returns></returns>
+        /// <returns>该页面的所有电影的数量</returns>
         public int GetFilmCount()
         {
             HtmlNode node = _doc.DocumentNode.SelectSingleNode("//div[@class=\"lineG pl10 pb12\"]");
@@ -36,7 +39,7 @@ namespace NetSpider.Common
         /// <summary>
         /// 获取列表页面上所有影片的链接和Id
         /// </summary>
-        /// <returns></returns>
+        /// <returns>key:Id,value:url</returns>
         public Dictionary<string, string> GetFilmsUrls()
         {
             HtmlNodeCollection FilmNodeCollection = _doc.DocumentNode.SelectNodes("/html/body/div[2]/div[1]/ul/li/a");

@@ -10,8 +10,15 @@ using Microsoft.Extensions.Configuration;
 
 namespace NetSpider
 {
+    /// <summary>
+    /// 主程序
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// 主程序入口   
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             using (var host = new HostBuilder()

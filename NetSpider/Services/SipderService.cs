@@ -19,14 +19,31 @@ namespace NetSpider.Services
     /// </summary>
     public class SipderService : IHostedService
     {
+        /// <summary>
+        /// 日志组件
+        /// </summary>
         ILogger logger = LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// app host life time
+        /// </summary>
         IHostApplicationLifetime _appLifeTime;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="appLifeTime">IHostApplicationLifetime实例</param>
         public SipderService(IHostApplicationLifetime appLifeTime)
         {
             _appLifeTime = appLifeTime;
 
         }
+
+        /// <summary>
+        /// 启动，异步
+        /// </summary>
+        /// <param name="cancellationToken">任务取消token</param>
+        /// <returns>任务执行结果</returns>
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _appLifeTime.ApplicationStarted.Register(OnStarted);
@@ -38,6 +55,11 @@ namespace NetSpider.Services
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// 停止，异步
+        /// </summary>
+        /// <param name="cancellationToken">任务取消token</param>
+        /// <returns>任务执行结果</returns>
         public Task StopAsync(CancellationToken cancellationToken)
         {
             SaveRunningEnv();
@@ -45,16 +67,25 @@ namespace NetSpider.Services
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// 启动完成时触发
+        /// </summary>
         public void OnStarted()
         {
             logger.Info($"{nameof(SipderService)} Started!");
         }
 
+        /// <summary>
+        /// 停止中触发
+        /// </summary>
         public void OnStoping()
         {
             logger.Warn($"{nameof(SipderService)} Stopping!");
         }
 
+        /// <summary>
+        /// 停止完成时触发
+        /// </summary>
         public void OnStoped()
         {
             logger.Error($"{nameof(SipderService)} Stoped!");
@@ -78,17 +109,42 @@ namespace NetSpider.Services
         private IConfiguration _config;
         private int FilmsPerPage = 30;
         private HttpClient Client;
+
+        /// <summary>
+        /// 操作film存储
+        /// </summary>
         private FilmDAL _filmDAL { get; set; }
+
+        /// <summary>
+        /// 操作运行信息存储
+        /// </summary>
         private RunningEnvDAL _runningEnvDAL { get; set; }
+
+        /// <summary>
+        /// 当前运行信息
+        /// </summary>
         private RunningEnvModel _runningEnv { get; set; }
+
+        /// <summary>
+        /// 爬虫的Key
+        /// </summary>
         private string SpiderKey = "Film1905";
 
-        TimeSpan LetterPauseSpan = new TimeSpan(0, 0, 15);
-        TimeSpan FilmPauseSapn = new TimeSpan(0, 0, 1);
         /// <summary>
-        /// 构造方法
+        /// 不同首字母之间的停顿时间
         /// </summary>
-        /// <param name="httpClientFactory"></param>
+        TimeSpan LetterPauseSpan = new TimeSpan(0, 0, 15);
+
+        /// <summary>
+        /// 每部电影之间的停顿时间
+        /// </summary>
+        TimeSpan FilmPauseSapn = new TimeSpan(0, 0, 1);
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="httpClientFactory">IHttpClientFactory实例</param>
+        /// <param name="configuration">IConfiguration实例</param>
         public SipderService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _factory = httpClientFactory;
@@ -226,6 +282,10 @@ namespace NetSpider.Services
 
         }
 
+        /// <summary>
+        /// 判断任务是否取消
+        /// </summary>
+        /// <param name="token"></param>
         public void CheckCancelled(CancellationToken token)
         {
             if (token.IsCancellationRequested)
@@ -234,6 +294,9 @@ namespace NetSpider.Services
             }
         }
 
+        /// <summary>
+        /// 保存运行信息
+        /// </summary>
         public void SaveRunningEnv()
         {
             try
@@ -247,6 +310,9 @@ namespace NetSpider.Services
         }
     }
 
+    /// <summary>
+    /// 电影分类信息
+    /// </summary>
     public class CategoryInfo
     {
         public string CateIndex { get; set; }

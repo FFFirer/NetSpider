@@ -14,7 +14,11 @@ namespace NetSpider.Common
     /// 页面链接类似https://www.1905.com/mdb/film/2249995/info/
     /// </summary>
     public class FilmDataHelper : BaseHtmlHelper
-    {
+    {   
+        /// <summary>
+        /// 构造函数，使用父类的构造函数
+        /// </summary>
+        /// <param name="HtmlContent"></param>
         public FilmDataHelper(string HtmlContent) : base(HtmlContent){
 
         }
@@ -22,8 +26,8 @@ namespace NetSpider.Common
         /// <summary>
         /// 获取详细信息
         /// </summary>
-        /// <param name="filmId"></param>
-        /// <returns></returns>
+        /// <param name="filmId">电影网的电影Id</param>
+        /// <returns>返回电影的详细信息</returns>
         public FilmModel GetFilms(int filmId)
         {
             HtmlNode FilmNameNode = _doc.DocumentNode.SelectSingleNode("//dt[text()=\"片&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名\"]/following-sibling::dd[1]");

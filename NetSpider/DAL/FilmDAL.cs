@@ -10,10 +10,21 @@ using System.Linq;
 using NLog;
 
 namespace NetSpider.DAL
-{
+{   
+    /// <summary>
+    /// 负责Film的数据库操作
+    /// </summary>
     public class FilmDAL : BaseDAL
     {
+        /// <summary>
+        /// 日志组件
+        /// </summary>
         ILogger logger = LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// 构造函数，使用父类的构造函数
+        /// </summary>
+        /// <param name="configuration"></param>
         public FilmDAL(IConfiguration configuration):base(configuration, "MsSqlConnection")
         {
 
@@ -32,8 +43,8 @@ namespace NetSpider.DAL
         /// <summary>
         /// 判断电影是否存在
         /// </summary>
-        /// <param name="FilmName"></param>
-        /// <returns></returns>
+        /// <param name="FilmName">电影名称</param>
+        /// <returns>是否存在，true:存在，false:不存在</returns>
         public bool IsExist(int filmid)
         {
             string sql = "select count(1) from Film1905 where FilmId=@FilmId";
@@ -46,8 +57,8 @@ namespace NetSpider.DAL
         /// <summary>
         /// 添加电影信息
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">电影的域模型</param>
+        /// <returns>当执行语句影响行数大于0，则表示执行成功，反之就是失败</returns>
         public bool AddFilmeInfo(FilmModel model)
         {
             string sql = "insert into Film1905 (FilmId, Name, Country, Language, FilmType, OtherCNFilmName, OtherENFilmName, PlayTime, Color, PlayType, PlayInfo, ShootingTime, FilmingLocations, UserRating) " +

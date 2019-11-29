@@ -4,6 +4,9 @@ using System.Text;
 
 namespace NetSpider.Models
 {
+    /// <summary>
+    /// 1905网的电影详细资料模型
+    /// </summary>
     public class FilmModel
     {
         public int Id { get; set; }
