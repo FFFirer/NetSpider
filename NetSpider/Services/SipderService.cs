@@ -51,7 +51,7 @@ namespace NetSpider.Services
             _appLifeTime.ApplicationStopping.Register(OnStoping);
             //FilmDAL dal = new FilmDAL(_config);
             //dal.GetFilmCount();
-            Seed();
+            Seed(cancellationToken);
             return Task.CompletedTask;
         }
 

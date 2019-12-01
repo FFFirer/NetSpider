@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Downloader\" />
+    <Folder Include="NetSpider\" />
+    <Folder Include="Persistence\" />
+    <Folder Include="Monitor\" />
+    <Folder Include="Seed\" />
+    <Folder Include="Common\" />
+  </ItemGroup>
+
+</Project>
