@@ -29,24 +29,12 @@ namespace NetSpider.Core
         /// <summary>
         /// Seed任务添加事件;
         /// </summary>
-        public EventHandler AddSeedTaskEvent;
-
-        public void RegistSeedEvent(EventHandler func)
-        {
-            AddSeedTaskEvent -= func;
-            AddSeedTaskEvent += func;
-        }
-
-        public void RegistAnalysisEvent(EventHandler func)
-        {
-            AddAnalysisTaskEvent -= func;
-            AddAnalysisTaskEvent += func;
-        }
+        public event EventHandler AddSeedTaskEvent;
 
         /// <summary>
         /// Analysis任务添加事件
         /// </summary>
-        public EventHandler AddAnalysisTaskEvent;
+        public event EventHandler AddAnalysisTaskEvent;
 
         /// <summary>
         /// 获取Seed任务
@@ -100,7 +88,7 @@ namespace NetSpider.Core
         /// 添加Analysis任务
         /// </summary>
         /// <param name="task"></param>
-        private void AddAnaiysisTask(SpiderTask task)
+        public void AddAnaiysisTask(SpiderTask task)
         {
             AnalysisQueue.Enqueue(task);
             AddAnalysisTaskEvent?.Invoke(this, null);

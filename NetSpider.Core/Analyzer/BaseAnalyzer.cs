@@ -41,6 +41,6 @@ namespace NetSpider.Core.Analyzer
         /// <typeparam name="T"></typeparam>
         /// <param name="message"></param>
         /// <returns></returns>
-        public abstract T Get<T>(HttpResponseMessage message)
+        public abstract T Get<T>(HttpResponseMessage message);
     }
 }

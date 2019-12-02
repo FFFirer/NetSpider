@@ -7,6 +7,11 @@ namespace NetSpider.Core
 {
     public interface IBaseQueue
     {
+        #region 事件
+        event EventHandler AddSeedTaskEvent;
+        event EventHandler AddAnalysisTaskEvent;
+        #endregion
+
         /// <summary>
         /// 获取Seed任务
         /// </summary>
