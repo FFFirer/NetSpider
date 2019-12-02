@@ -39,9 +39,5 @@ namespace NetSpider.Core.Models
         /// 该任务的响应
         /// </summary>
         public HttpResponseMessage Response { get; set; }
-
-
     }
-
-    
 }
