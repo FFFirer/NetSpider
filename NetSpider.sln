@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider", "NetSpider\NetSpider.csproj", "{8808506E-9F53-44FA-BB19-1A4E0DCAB5EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSpider.Core", "NetSpider.Core\NetSpider.Core.csproj", "{F3E4620B-F805-4AE4-B521-843347483DB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.Core", "NetSpider.Core\NetSpider.Core.csproj", "{F3E4620B-F805-4AE4-B521-843347483DB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSpider.Core.ConsoleTest", "NetSpider.Core.ConsoleTest\NetSpider.Core.ConsoleTest.csproj", "{BCBB1069-4429-4624-B030-AFB442E1D522}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F3E4620B-F805-4AE4-B521-843347483DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3E4620B-F805-4AE4-B521-843347483DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3E4620B-F805-4AE4-B521-843347483DB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCBB1069-4429-4624-B030-AFB442E1D522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCBB1069-4429-4624-B030-AFB442E1D522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCBB1069-4429-4624-B030-AFB442E1D522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCBB1069-4429-4624-B030-AFB442E1D522}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

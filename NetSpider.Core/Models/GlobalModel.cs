@@ -44,5 +44,20 @@ namespace NetSpider.Core
         /// 重试
         /// </summary>
         Retry = 3,
+
+        /// <summary>
+        /// 分析
+        /// </summary>
+        Analysis=4,
+
+        /// <summary>
+        /// 存储
+        /// </summary>
+        Storage=5,
+
+        /// <summary>
+        /// 出现程序错误
+        /// </summary>
+        Exception=6,
     }
 }

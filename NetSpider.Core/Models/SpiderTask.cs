@@ -8,7 +8,7 @@ namespace NetSpider.Core.Models
     /// <summary>
     /// 单个url所代表的任务
     /// </summary>
-    public class SpiderTask
+    public class SpiderTask:IDisposable
     {
         /// <summary>
         /// 抓取目标，链接/内容
@@ -21,14 +21,14 @@ namespace NetSpider.Core.Models
         public string Url { get; set; }
 
         /// <summary>
-        /// 任务所处的状态
+        /// 任务所处的状态，按需设置
         /// </summary>
-        public SpiderTaskStatus Status { get; set; }
+        public SpiderTaskStatus Status { get; set; } = SpiderTaskStatus.Waiting;
 
         /// <summary>
-        /// 剩余的重试次数
+        /// 重新进入任务队列的次数
         /// </summary>
-        public int RetryCount { get; set; }
+        public int RetryCount { get; set; } = 3;
 
         /// <summary>
         /// 该任务的请求
@@ -39,5 +39,28 @@ namespace NetSpider.Core.Models
         /// 该任务的响应
         /// </summary>
         public HttpResponseMessage Response { get; set; }
+
+        public Exception LastException { get; set; }
+
+        public SpiderTask(string url, HttpMethod method)
+        {
+            Url = url;
+            Request = new HttpRequestMessage(method, url);
+            
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                Request?.Dispose();
+                Response?.Dispose();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace NetSpider
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            using (var host = new HostBuilder()
+            using (var host = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((hostContext, configApp) =>
                 {
                     configApp.SetBasePath(Environment.CurrentDirectory);
