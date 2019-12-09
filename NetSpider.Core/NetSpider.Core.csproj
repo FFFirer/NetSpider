@@ -7,6 +7,7 @@
   <ItemGroup>
     <Folder Include="Persistence\" />
     <Folder Include="Monitor\" />
+    <Folder Include="Queue\" />
     <Folder Include="Seed\" />
   </ItemGroup>
 

@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NetSpider.Core.Models;
+using Microsoft.Extensions.Logging;
+using NetSpider.Core.Downloader;
 
 namespace NetSpider.Core
 {
@@ -12,6 +14,9 @@ namespace NetSpider.Core
     /// </summary>
     public class DownloadScheduler
     {
+        private readonly ILogger _logger;
+        private IDownloader _downloader;
+
         /// <summary>
         /// 有新任务待处理时触发信号
         /// </summary>
@@ -37,9 +42,10 @@ namespace NetSpider.Core
             NewTaskEvent.Set();
         }
 
-        public DownloadScheduler()
+        public DownloadScheduler(ILogger<DownloadScheduler> logger, IDownloader downloader)
         {
-
+            _logger = logger;
+            _downloader = downloader;
         }
 
         public void Regiser(IBaseQueue queue, CancellationToken token)
@@ -63,7 +69,31 @@ namespace NetSpider.Core
         /// </summary>
         public void Work()
         {
+            while (true)
+            {
+                try
+                {
+                    var task = _queue.GetSeedTask();
+                    if(task == null)
+                    {
+                        NewTaskEvent.WaitOne();
+                    }
+                    else
+                    {
+                        // 完成请求
+                        _downloader.RequestAsync(task);
 
+                        _logger.LogDebug($"请求完成，{task.Status}");
+
+                        // 插入新的分析任务
+                        NewAnalysisTaskEvent?.Invoke(this, task);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"获取新任务失败");
+                }
+            }
         }
     }
 }
