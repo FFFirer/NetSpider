@@ -91,7 +91,7 @@ namespace NetSpider.Core
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"获取新任务失败");
+                    _logger.LogError(ex, $"处理队列任务时失败");
                 }
             }
         }

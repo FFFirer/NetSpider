@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NetSpider.Core.Models;
+using Microsoft.Extensions.Logging;
+using NetSpider.Core.Analyzer;
 
 namespace NetSpider.Core
 {
@@ -12,6 +14,9 @@ namespace NetSpider.Core
     /// </summary>
     public class AnalysisScheduler
     {
+        private readonly ILogger _logger;
+        private readonly IAnalyzer _analyzer;
+
         /// <summary>
         /// 有新任务待处理时触发信号
         /// </summary>
@@ -32,9 +37,10 @@ namespace NetSpider.Core
         /// </summary>
         private IBaseQueue _queue;
 
-        public AnalysisScheduler()
+        public AnalysisScheduler(ILogger<AnalysisScheduler> logger, IAnalyzer analyzer)
         {
-
+            _logger = logger;
+            _analyzer = analyzer;
         }
 
         /// <summary>
@@ -61,7 +67,6 @@ namespace NetSpider.Core
             // 注册此调度器中产生新的种子任务事件是触发
             NewSeedTaskEvent -= AnalysisScheduler_NewSeedTaskEvent;
             NewSeedTaskEvent += AnalysisScheduler_NewSeedTaskEvent;
-
         }
 
         /// <summary>
@@ -79,7 +84,26 @@ namespace NetSpider.Core
         /// </summary>
         public void Work()
         {
+            while (true)
+            {
+                try
+                {
+                    var task = _queue.GetAnalysisTask();
+                    if(task == null)
+                    {
+                        NewTaskEvent.WaitOne();
+                    }
+                    else
+                    {
+                        var result = _analyzer.Analyze(task);
 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"解析任务时出现错误");
+                }
+            }
         }
     }
 }
