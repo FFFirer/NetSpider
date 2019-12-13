@@ -95,14 +95,28 @@ namespace NetSpider.Core
                     }
                     else
                     {
-                        var result = _analyzer.Analyze(task);
-
+                        _analyzer.Analyze(task);
                     }
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"解析任务时出现错误");
                 }
+            }
+        }
+
+        /// <summary>
+        /// 处理分析结果
+        /// </summary>
+        /// <param name="result"></param>
+        public void HandleResult(AnalysisResult result)
+        {
+            if (result.NewTasks.Count > 0)
+            {
+                result.NewTasks.ForEach(t =>
+                {
+                    NewSeedTaskEvent?.Invoke(this, t);
+                });
             }
         }
     }

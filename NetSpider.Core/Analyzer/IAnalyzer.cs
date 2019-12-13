@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using NetSpider.Core.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NetSpider.Core.Analyzer
 {
@@ -11,19 +13,6 @@ namespace NetSpider.Core.Analyzer
         /// 进行分析
         /// </summary>
         /// <param name="task"></param>
-        AnalysisResult Analyze(SpiderTask task);
-
-        /// <summary>
-        /// 抽取目标内容
-        /// </summary>
-        /// <param name="task"></param>
-        void GetContent(SpiderTask task);
-
-        /// <summary>
-        /// 抽取目标链接
-        /// </summary>
-        /// <param name="task"></param>
-        /// <returns></returns>
-        IEnumerable<string> GetLink(SpiderTask task);
+        void Analyze(SpiderTask task);
     }
 }

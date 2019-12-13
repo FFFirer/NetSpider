@@ -6,6 +6,6 @@ namespace NetSpider.Core.Models
 {
     public interface IContent
     {
-        void Parse(string origin);
+        object Parse(string origin);
     }
 }

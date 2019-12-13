@@ -59,5 +59,10 @@ namespace NetSpider.Core
         /// 出现程序错误
         /// </summary>
         Exception=6,
+
+        /// <summary>
+        /// 终止
+        /// </summary>
+        Terminated=7
     }
 }
