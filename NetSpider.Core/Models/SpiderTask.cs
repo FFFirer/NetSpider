@@ -8,7 +8,7 @@ namespace NetSpider.Core.Models
     /// <summary>
     /// 单个url所代表的任务
     /// </summary>
-    public class SpiderTask:IDisposable
+    public sealed class SpiderTask:IDisposable
     {
         /// <summary>
         /// 抓取目标，链接/内容
@@ -46,21 +46,12 @@ namespace NetSpider.Core.Models
         {
             Url = url;
             Request = new HttpRequestMessage(method, url);
-            
         }
 
         public void Dispose()
         {
-            try
-            {
-                Request?.Dispose();
-                Response?.Dispose();
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            Request?.Dispose();
+            Response?.Dispose();
         }
     }
 }

@@ -17,6 +17,8 @@ namespace NetSpider.Core
         private readonly ILogger _logger;
         private IDownloader _downloader;
 
+        private bool running { get; set; } = false;
+
         /// <summary>
         /// 有新任务待处理时触发信号
         /// </summary>
@@ -31,6 +33,8 @@ namespace NetSpider.Core
         /// 队列
         /// </summary>
         private IBaseQueue _queue;
+
+        private CancellationTokenSource _cancelsource { get; set; }
 
         /// <summary>
         /// 当有新任务需要被处理的时候，开始处理
@@ -50,6 +54,7 @@ namespace NetSpider.Core
 
         public void Regiser(IBaseQueue queue, CancellationToken token)
         {
+            _cancelsource = CancellationTokenSource.CreateLinkedTokenSource(token);
             _queue = queue;
             // 队列中有新的下载事件
             _queue.AddSeedTaskEvent -= NewTask;
@@ -61,16 +66,23 @@ namespace NetSpider.Core
 
         private void DownloadScheduler_NewAnalysisTaskEvent(object sender, SpiderTask e)
         {
-            _queue.AddAnaiysisTask(e);
+            if (e.Response != null)
+            {
+                _queue.AddAnaiysisTask(e);
+            }
         }
 
         /// <summary>
         /// 处理队列任务
         /// </summary>
-        public void Work()
+        public async void Work(CancellationToken token)
         {
-            while (true)
+            while (running)
             {
+                if (token.IsCancellationRequested)
+                {
+                    throw new OperationCanceledException(token);
+                }
                 try
                 {
                     var task = _queue.GetSeedTask();
@@ -81,9 +93,9 @@ namespace NetSpider.Core
                     else
                     {
                         // 完成请求
-                        _downloader.RequestAsync(task);
+                        await _downloader.RequestAsync(task);
 
-                        _logger.LogDebug($"请求完成，{task.Status}");
+                        _logger.LogInformation($"请求完成，{task.Status}，{task.Request.RequestUri}");
 
                         // 插入新的分析任务
                         NewAnalysisTaskEvent?.Invoke(this, task);
@@ -94,6 +106,24 @@ namespace NetSpider.Core
                     _logger.LogError(ex, $"处理队列任务时失败");
                 }
             }
+        }
+
+
+        public void Start()
+        {
+            running = true;
+            CancellationToken token = _cancelsource.Token;
+            Task.Factory.StartNew(() =>
+            {
+                Work(token);
+            });
+            _logger.LogInformation($"{typeof(DownloadScheduler).Name} started");
+        }
+
+        public void Stop()
+        {
+            _cancelsource.Cancel();
+            _logger.LogInformation($"{typeof(DownloadScheduler).Name} operation cancelled");
         }
     }
 }

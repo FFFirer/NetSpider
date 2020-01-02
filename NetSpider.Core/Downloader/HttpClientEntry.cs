@@ -8,7 +8,7 @@ namespace NetSpider.Core
     /// <summary>
     /// HttpClient入口
     /// </summary>
-    public class HttpClientEntry : IDisposable
+    public sealed class HttpClientEntry : IDisposable
     {
         public DateTimeOffset LastUseTime { get; set; }
         public HttpClient HttpClient { get; set; }
@@ -19,7 +19,7 @@ namespace NetSpider.Core
         }
         public void Dispose()
         {
-            HttpClient.Dispose();
+            this.HttpClient.Dispose();
         }
     }
 }

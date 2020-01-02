@@ -65,4 +65,42 @@ namespace NetSpider.Core
         /// </summary>
         Terminated=7
     }
+
+    /// <summary>
+    /// 解析的结果类型，0-链接/新的任务，1-内容/需要保存的数据
+    /// </summary>
+    public enum AnalysisResult
+    {
+        Init = 0,
+        Success = 1,
+        Failed = 2,
+        Terminated = 3,
+        invalid = 4,
+    }
+
+    /// <summary>
+    /// 存储类型
+    /// </summary>
+    public enum StorageType
+    {
+        /// <summary>
+        /// Json文本
+        /// </summary>
+        JsonTxt=0,
+
+        /// <summary>
+        /// Mysql数据库
+        /// </summary>
+        Mysql=1,
+
+        /// <summary>
+        /// sql server数据库
+        /// </summary>
+        SqlServer=2,
+
+        /// <summary>
+        /// Mongodb数据库
+        /// </summary>
+        Mongodb=3
+    }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NetSpider.Core.Models;
 using Microsoft.Extensions.Logging;
 using NetSpider.Core.Analyzer;
+using System.Linq;
 
 namespace NetSpider.Core
 {
@@ -43,6 +44,8 @@ namespace NetSpider.Core
             _analyzer = analyzer;
         }
 
+        private bool running { get; set; } = false;
+        private CancellationTokenSource _cancelsource { get; set; }
         /// <summary>
         /// 当有新的事件添加的时候，调度器开始处理
         /// </summary>
@@ -60,6 +63,7 @@ namespace NetSpider.Core
         /// <param name="token"></param>
         public void Register(IBaseQueue queue, CancellationToken token)
         {
+            _cancelsource = CancellationTokenSource.CreateLinkedTokenSource(token);
             _queue = queue;
             // 队列中有新的分析事件
             _queue.AddAnalysisTaskEvent -= NewTask;
@@ -67,6 +71,8 @@ namespace NetSpider.Core
             // 注册此调度器中产生新的种子任务事件是触发
             NewSeedTaskEvent -= AnalysisScheduler_NewSeedTaskEvent;
             NewSeedTaskEvent += AnalysisScheduler_NewSeedTaskEvent;
+
+            _logger.LogDebug($"{nameof(AnalysisScheduler)} Event Registerd!");
         }
 
         /// <summary>
@@ -82,10 +88,14 @@ namespace NetSpider.Core
         /// <summary>
         /// 处理队列任务
         /// </summary>
-        public void Work()
+        public void Work(CancellationToken token)
         {
-            while (true)
+            while (running)
             {
+                if (token.IsCancellationRequested)
+                {
+                    throw new OperationCanceledException(token);
+                }
                 try
                 {
                     var task = _queue.GetAnalysisTask();
@@ -95,7 +105,7 @@ namespace NetSpider.Core
                     }
                     else
                     {
-                        _analyzer.Analyze(task);
+                        HandleTask(task);
                     }
                 }
                 catch (Exception ex)
@@ -106,18 +116,50 @@ namespace NetSpider.Core
         }
 
         /// <summary>
-        /// 处理分析结果
+        /// 处理任务 分析页面
         /// </summary>
-        /// <param name="result"></param>
-        public void HandleResult(AnalysisResult result)
+        /// <param name="task"></param>
+        private void HandleTask(SpiderTask task)
         {
-            if (result.NewTasks.Count > 0)
+            if(task == null)
             {
-                result.NewTasks.ForEach(t =>
+                _logger.LogError($"{nameof(SpiderTask)} is null");
+                return;
+            }
+
+            if(_analyzer == null)
+            {
+                _logger.LogError($"{nameof(_analyzer)} 未实现");
+                throw new NullReferenceException($"{nameof(_analyzer)} 未实现");
+            }
+
+            List<SpiderTask> NewTasks = _analyzer.Analyze(task).ToList();
+
+            if (NewTasks.Count > 0)
+            {
+                foreach(var t in NewTasks)
                 {
-                    NewSeedTaskEvent?.Invoke(this, t);
-                });
+                    NewSeedTaskEvent?.Invoke(null, t);
+                }
             }
         }
+
+        public void Start()
+        {
+            running = true;
+            CancellationToken token = _cancelsource.Token;
+            Task.Factory.StartNew(() =>
+            {
+                Work(token);
+            });
+            _logger.LogInformation($"{nameof(AnalysisScheduler)} Started");
+        }
+
+        public void Stop()
+        {
+            _cancelsource.Cancel();
+            _logger.LogInformation($"{nameof(AnalysisScheduler)} cancelled");
+        }
+
     }
 }

@@ -100,17 +100,14 @@ namespace NetSpider.Core.Downloader
                     var entry = GetHttpClientEntry(_currentProxy == null ? "Default" : $"{_currentProxy.Address}", _currentProxy);
 
                     response = await entry.HttpClient.SendAsync(request);
+
                     _logger.LogInformation($"{DateTime.Now.ToString("o")} => {response.StatusCode}");
 
-
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        return response;
-                    }
+                    return response;
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, nameof(DefaultDownloader));
+                    _logger.LogError(ex, $"{request.RequestUri.ToString()}");
                 }
                 finally
                 {
@@ -164,6 +161,9 @@ namespace NetSpider.Core.Downloader
             };
 
             var entry = new HttpClientEntry(handler);
+
+            configureHttpClient?.Invoke(entry.HttpClient);
+
             // TODO:这里可以添加默认头信息
             _clients.TryAdd(hash, entry);
             return entry;

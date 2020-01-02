@@ -15,6 +15,8 @@ namespace NetSpider.Core.Downloader
     {
         public ILogger _logger;
 
+        public Action<HttpClient> configureHttpClient { get; set; }
+
         public BaseDownloader(ILoggerFactory loggerFactory)
         {
             if(loggerFactory == null)
@@ -43,7 +45,7 @@ namespace NetSpider.Core.Downloader
             try
             {
                 response = await Request(task.Request);
-                if(response.StatusCode == System.Net.HttpStatusCode.OK)
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     task.Status = SpiderTaskStatus.Success;
                     task.Response = response;
@@ -60,6 +62,7 @@ namespace NetSpider.Core.Downloader
                 task.Status = SpiderTaskStatus.Exception;
                 task.LastException = ex;
                 task.Response = null;
+                _logger.LogDebug(ex, $"请求失败！{task.Request.RequestUri.ToString()}");
             }
 
             return task;

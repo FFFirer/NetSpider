@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using NetSpider.Core.Downloader;
 using NetSpider.Core.Common;
 using Microsoft.Extensions.Logging;
+using NetSpider.Core.ConsoleTest.CoreTest;
 
 namespace NetSpider.Core.ConsoleTest
 {
@@ -17,9 +18,10 @@ namespace NetSpider.Core.ConsoleTest
                 .ConfigureLogging(logging=> {
                     logging.ClearProviders();
                     logging.AddConsole();
+                    logging.SetMinimumLevel(LogLevel.Debug);
                 })
                 .ConfigureServices((services)=> {
-                    services.AddHostedService<CoreSpiderServices>();
+                    services.AddHostedService<TestSpiderService1>();
                 })
                 .UseConsoleLifetime()
                 .Build())

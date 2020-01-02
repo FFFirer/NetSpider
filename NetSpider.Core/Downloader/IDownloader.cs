@@ -16,5 +16,7 @@ namespace NetSpider.Core.Downloader
         /// <param name="task"></param>
         /// <returns></returns>
         Task<SpiderTask> RequestAsync(SpiderTask task);
+
+        Action<HttpClient> configureHttpClient { get; set; }
     }
 }
