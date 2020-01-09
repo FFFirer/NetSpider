@@ -47,7 +47,7 @@ namespace NetSpider.Core.Analyzer
 
             if (context.HasData)
             {
-                _storage.Save(context.Datas);
+                _storage.SaveData(context.Datas);
             }
 
             if (context.HasTasks)

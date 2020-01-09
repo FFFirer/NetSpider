@@ -21,7 +21,7 @@ namespace NetSpider.Core.ConsoleTest
                     logging.SetMinimumLevel(LogLevel.Debug);
                 })
                 .ConfigureServices((services)=> {
-                    services.AddHostedService<TestSpiderService1>();
+                    services.AddHostedService<NoverSpiderService>();
                 })
                 .UseConsoleLifetime()
                 .Build())

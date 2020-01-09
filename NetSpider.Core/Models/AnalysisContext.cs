@@ -60,7 +60,8 @@ namespace NetSpider.Core.Models
         public AnalysisContext(SpiderTask task)
         {
             _task = task;
-            Content = _task.Response?.Content.ReadAsStringAsync().Result;
+            //Content = _task.Response?.Content.ReadAsStringAsync().Result;
+            Content = Encoding.Default.GetString(_task.Response?.Content.ReadAsByteArrayAsync().Result);
         }
 
 

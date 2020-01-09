@@ -54,24 +54,19 @@ namespace NetSpider.Core
         {
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<BaseSpider>();
-            Configure();
             Init(token);
-        }
-
-        private void Configure()
-        {
-            SpiderServiceProvider = Services.BuildServiceProvider();
-
-            _analyzer = new BaseAnalyzer(_storagescheduler, _loggerFactory.CreateLogger<BaseAnalyzer>());
-            _downloader = new DefaultDownloader(_loggerFactory, new DefaultProxyPool());
         }
 
         public void Init(CancellationToken token)
         {
+            SpiderServiceProvider = Services.BuildServiceProvider();
+
+            _storagescheduler = new StorageScheduler(_loggerFactory.CreateLogger<StorageScheduler>(), token);
+            _analyzer = new BaseAnalyzer(_storagescheduler, _loggerFactory.CreateLogger<BaseAnalyzer>());
+            _downloader = new DefaultDownloader(_loggerFactory, new DefaultProxyPool());
             // 获取调度器实例
             _downloadscheduler = new DownloadScheduler(_loggerFactory.CreateLogger<DownloadScheduler>(), _downloader);
             _analysisscheduler = new AnalysisScheduler(_loggerFactory.CreateLogger<AnalysisScheduler>(), _analyzer);
-            _storagescheduler = new StorageScheduler(_loggerFactory.CreateLogger<StorageScheduler>(), token);
 
             // 注册队列到调度器
             if (_queue != null)

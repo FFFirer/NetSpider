@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Data;
 using System.Data.SqlClient;
 using Dapper;
+using System.IO;
 
 namespace NetSpider.Core.ConsoleTest
 {
@@ -137,6 +138,9 @@ namespace NetSpider.Core.ConsoleTest
     #region 数据存储
     public class XsNoverRepo : BaseRepo
     {
+        string BaseFilePath = Path.Combine(Environment.CurrentDirectory + "31xs");
+
+
         public XsNoverRepo():base(new SqlConnection(""))
         {
 
@@ -158,8 +162,17 @@ namespace NetSpider.Core.ConsoleTest
 
         private void SaveNoverChapter(NoverChapter chapter)
         {
-            string sql = "INSERT INTO Nover1886 (ChapName, Content)VALUES(@ChapName, @Content)";
-            Connection.Execute(sql, chapter);
+            string chapterpath = Path.Combine(BaseFilePath, chapter.ChapName);
+            if (!Directory.Exists(chapterpath))
+            {
+                using(FileStream fs = new FileStream(chapterpath, FileMode.Create))
+                {
+                    using(StreamWriter sw = new StreamWriter(fs))
+                    {
+                        sw.Write(chapter.Content);
+                    }
+                }
+            }
         }
     }
     #endregion

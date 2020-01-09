@@ -10,7 +10,7 @@ namespace NetSpider.Core.Storage
         /// 保存数据组，Key为数据类名，value为数据集合
         /// </summary>
         /// <param name="Datas"></param>
-        void Save(Dictionary<string, dynamic> Datas);
+        void SaveData(Dictionary<string, dynamic> Datas);
 
         /// <summary>
         /// 添加存储库
