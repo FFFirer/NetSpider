@@ -92,6 +92,15 @@ namespace NetSpider.Core
             }
         }
 
+        public void AddData2Repo<T>(string reponame)
+        {
+            if(_storagescheduler != null)
+            {
+                _storagescheduler.LinkDataAndRepo<T>(reponame);
+            }
+        }
+
+
         public void AddRequest(string url)
         {
             _queue.AddSeedTask(new SpiderTask(url, HttpMethod.Get));

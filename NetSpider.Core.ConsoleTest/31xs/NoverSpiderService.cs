@@ -18,6 +18,7 @@ using System.IO;
 
 namespace NetSpider.Core.ConsoleTest
 {
+    #region Service,Config
     public class NoverSpiderService : IHostedService
     {
         private CancellationTokenSource _source = new CancellationTokenSource();
@@ -36,6 +37,7 @@ namespace NetSpider.Core.ConsoleTest
             _spider.AddDataParser(new LinkParser(factory));
             _spider.AddDataParser(new ChapterParser(factory));
             _spider.AddRepo(new XsNoverRepo(), typeof(XsNoverRepo).Name);
+            _spider.AddData2Repo<NoverChapter>(typeof(XsNoverRepo).Name);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -50,14 +52,19 @@ namespace NetSpider.Core.ConsoleTest
             return Task.CompletedTask;
         }
     }
+    #endregion
 
+
+    #region NoverSpider
     public class NoverSpider : BaseSpider
     {
-        public NoverSpider(ILoggerFactory factory, CancellationToken token):base(token, factory)
+        public NoverSpider(ILoggerFactory factory, CancellationToken token) : base(token, factory)
         {
 
         }
     }
+    #endregion
+
 
     #region 数据抓取
     public class LinkParser : BaseDataParser
@@ -138,12 +145,12 @@ namespace NetSpider.Core.ConsoleTest
     #region 数据存储
     public class XsNoverRepo : BaseRepo
     {
-        string BaseFilePath = Path.Combine(Environment.CurrentDirectory + "31xs");
+        private string BaseFilePath = Path.Combine(Environment.CurrentDirectory , "31xs");
 
 
         public XsNoverRepo():base(new SqlConnection(""))
         {
-
+            
         }
         public override void Save(string datatype, dynamic datas)
         {
@@ -162,7 +169,12 @@ namespace NetSpider.Core.ConsoleTest
 
         private void SaveNoverChapter(NoverChapter chapter)
         {
-            string chapterpath = Path.Combine(BaseFilePath, chapter.ChapName);
+            if (!Directory.Exists(BaseFilePath))
+            {
+                Directory.CreateDirectory(BaseFilePath);
+            }
+
+            string chapterpath = Path.Combine(BaseFilePath, chapter.ChapName) + ".txt";
             if (!Directory.Exists(chapterpath))
             {
                 using(FileStream fs = new FileStream(chapterpath, FileMode.Create))
