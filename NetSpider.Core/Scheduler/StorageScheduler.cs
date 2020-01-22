@@ -34,7 +34,7 @@ namespace NetSpider.Core.Storage
 
                     if (_repos.ContainsKey(reponame))
                     {
-                        _repos[reponame].Save(key, Datas[key]);
+                        _repos[reponame].Save(Datas[key]);
                     }
                 }
                 else

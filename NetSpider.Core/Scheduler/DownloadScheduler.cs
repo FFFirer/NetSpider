@@ -99,6 +99,9 @@ namespace NetSpider.Core
 
                         // 插入新的分析任务
                         NewAnalysisTaskEvent?.Invoke(this, task);
+
+                        // 延迟特定时间
+                        Delay();
                     }
                 }
                 catch (Exception ex)
@@ -124,6 +127,14 @@ namespace NetSpider.Core
         {
             _cancelsource.Cancel();
             _logger.LogInformation($"{typeof(DownloadScheduler).Name} operation cancelled");
+        }
+
+        /// <summary>
+        /// 延迟固定秒数
+        /// </summary>
+        public void Delay()
+        {
+            Thread.Sleep(1000);
         }
     }
 }

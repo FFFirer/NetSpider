@@ -6,6 +6,7 @@ namespace NetSpider.Core.Storage
 {
     public interface IRepo
     {
-        void Save(string datatype, dynamic datas);
+        void Save<T>(IEnumerable<T> datas);
+        void Save<T>(T data);
     }
 }
