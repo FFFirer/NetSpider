@@ -40,6 +40,11 @@ namespace NetSpider.Core.Models
         /// </summary>
         public HttpResponseMessage Response { get; set; }
 
+        /// <summary>
+        /// 指定编码格式，优先级最高
+        /// </summary>
+        public string SpecifyEncoding { get; set; }
+
         public Exception LastException { get; set; }
 
         public SpiderTask(string url, HttpMethod method)
@@ -52,6 +57,39 @@ namespace NetSpider.Core.Models
         {
             Request?.Dispose();
             Response?.Dispose();
+        }
+        /// <summary>
+        /// 将响应转换为正确编码的字符串
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public string GetContent()
+        {
+            if (Response == null)
+            {
+                throw new ArgumentNullException(nameof(Response));
+            }
+
+            if (Response.Content == null)
+            {
+                throw new NullReferenceException(nameof(Response.Content));
+            }
+
+            if (!string.IsNullOrEmpty(SpecifyEncoding))
+            {
+                return Encoding.GetEncoding(SpecifyEncoding).GetString(Response.Content.ReadAsByteArrayAsync().Result);
+            }
+
+            if (Response?.Content.Headers.ContentType?.CharSet != null)
+            {
+                // 根据编码类型解析
+                return Encoding.GetEncoding(Response.Content.Headers.ContentType.CharSet).GetString(Response.Content.ReadAsByteArrayAsync().Result);
+            }
+            else
+            {
+                // 返回默认字符串
+                return Response.Content.ReadAsStringAsync().Result;
+            }
         }
     }
 }

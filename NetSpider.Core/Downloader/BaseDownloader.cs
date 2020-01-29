@@ -16,7 +16,7 @@ namespace NetSpider.Core.Downloader
         public ILogger _logger;
 
         public Action<HttpClient> configureHttpClient { get; set; }
-
+        public string SpecifyEncoding { get; set; }
         public BaseDownloader(ILoggerFactory loggerFactory)
         {
             if(loggerFactory == null)
@@ -41,6 +41,11 @@ namespace NetSpider.Core.Downloader
         /// <returns></returns>
         public async Task<SpiderTask> RequestAsync(SpiderTask task)
         {
+            if (!string.IsNullOrEmpty(SpecifyEncoding))
+            {
+                task.SpecifyEncoding = SpecifyEncoding;
+            }
+
             HttpResponseMessage response;
             try
             {

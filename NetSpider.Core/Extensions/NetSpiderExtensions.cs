@@ -20,5 +20,20 @@ namespace NetSpider.Core.Extensions
             spider.AddRepo(repo, repo.GetType().FullName);
             return spider;
         }
+
+        public static BaseSpider AddDefaultMongoRepo(this BaseSpider spider)
+        {
+            IRepo repo = new BaseMongoRepo("127.0.0.1");
+            spider.AddRepo(repo, nameof(BaseMongoRepo));
+            return spider;
+        }
+
+        public static BaseSpider AddData2DefaultMongoRepo<T>(this BaseSpider spider)
+        {
+            spider.AddData2Repo<T>(nameof(BaseMongoRepo));
+            return spider;
+        }
+
+        
     }
 }

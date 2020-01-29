@@ -23,6 +23,7 @@ namespace NetSpider.Core.Storage
 
         private CancellationTokenSource _source { get; set; }
 
+
         public void SaveData(Dictionary<string, dynamic> Datas)
         {
             foreach (string key in Datas.Keys)
@@ -34,7 +35,8 @@ namespace NetSpider.Core.Storage
 
                     if (_repos.ContainsKey(reponame))
                     {
-                        _repos[reponame].Save(Datas[key]);
+                        
+                        _repos[reponame].SaveMany(Datas[key]);
                     }
                 }
                 else

@@ -7,7 +7,7 @@ namespace NetSpider.Core.Storage
     public interface IStorageScheduler
     {
         /// <summary>
-        /// 保存数据组，Key为数据类名，value为数据集合
+        /// 保存数据组，Key为数据类名，value为数据集合(IEnumerable<T>)
         /// </summary>
         /// <param name="Datas"></param>
         void SaveData(Dictionary<string, dynamic> Datas);

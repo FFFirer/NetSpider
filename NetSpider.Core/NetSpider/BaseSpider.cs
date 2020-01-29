@@ -52,6 +52,7 @@ namespace NetSpider.Core
 
         public BaseSpider(CancellationToken token, ILoggerFactory loggerFactory)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<BaseSpider>();
             Init(token);
@@ -100,10 +101,15 @@ namespace NetSpider.Core
             }
         }
 
-
         public void AddRequest(string url)
         {
             _queue.AddSeedTask(new SpiderTask(url, HttpMethod.Get));
+        }
+
+        public void SpecifyEncoding(string encoding)
+        {
+            if (_downloader == null) throw new NullReferenceException(nameof(_downloader));
+            _downloader.SpecifyEncoding = encoding;
         }
 
         public void ConfigureHttp(Action<HttpClient> configureHttpClient)

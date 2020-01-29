@@ -18,5 +18,7 @@ namespace NetSpider.Core.Downloader
         Task<SpiderTask> RequestAsync(SpiderTask task);
 
         Action<HttpClient> configureHttpClient { get; set; }
+
+        string SpecifyEncoding { get; set; }
     }
 }

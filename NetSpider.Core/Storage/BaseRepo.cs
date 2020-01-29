@@ -24,6 +24,16 @@ namespace NetSpider.Core.Storage
         /// <param name="datas"></param>
         public abstract void Save(string datatype, dynamic datas);
 
+        public void SaveMany<T>(IEnumerable<T> datas)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Save<T>(T data)
+        {
+            throw new NotImplementedException();
+        }
+
         public string ConnectionString { get; set; }
 
         public BaseRepo(IDbConnection connection)

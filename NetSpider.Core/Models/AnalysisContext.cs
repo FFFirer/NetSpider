@@ -4,6 +4,7 @@ using System.Text;
 using NetSpider.Core;
 using System.Linq;
 using System.Net.Http;
+using NetSpider.Core.Common;
 
 namespace NetSpider.Core.Models
 {
@@ -61,7 +62,7 @@ namespace NetSpider.Core.Models
         {
             _task = task;
             //Content = _task.Response?.Content.ReadAsStringAsync().Result;
-            Content = Encoding.Default.GetString(_task.Response?.Content.ReadAsByteArrayAsync().Result);
+            Content = _task.GetContent();
         }
 
 

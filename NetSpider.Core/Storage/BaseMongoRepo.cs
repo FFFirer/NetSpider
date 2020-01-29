@@ -86,7 +86,7 @@ namespace NetSpider.Core.Storage
             return "T_" + datatype;
         }
 
-        public void Save<T>(IEnumerable<T> datas)
+        public void SaveMany<T>(IEnumerable<T> datas)
         {
             string collectionName = GetCollectionName(typeof(T).Name);
             IMongoDatabase database = _client.GetDatabase("netspider");

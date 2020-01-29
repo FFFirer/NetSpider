@@ -15,6 +15,7 @@ using System.Data;
 using System.Data.SqlClient;
 using Dapper;
 using System.IO;
+using NetSpider.Core.Extensions;
 
 namespace NetSpider.Core.ConsoleTest
 {
@@ -36,8 +37,11 @@ namespace NetSpider.Core.ConsoleTest
             });
             _spider.AddDataParser(new LinkParser(factory));
             _spider.AddDataParser(new ChapterParser(factory));
-            _spider.AddRepo(new XsNoverRepo(), typeof(XsNoverRepo).Name);
-            _spider.AddData2Repo<NoverChapter>(typeof(XsNoverRepo).Name);
+            //_spider.AddRepo(new XsNoverRepo(), typeof(XsNoverRepo).Name);
+            //_spider.AddData2Repo<NoverChapter>(typeof(XsNoverRepo).Name);
+            _spider.AddDefaultMongoRepo();
+            _spider.AddData2DefaultMongoRepo<NoverChapter>();
+            _spider.SpecifyEncoding("gbk");
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
