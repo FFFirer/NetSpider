@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider", "NetSpider\NetS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.Core", "NetSpider.Core\NetSpider.Core.csproj", "{F3E4620B-F805-4AE4-B521-843347483DB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSpider.Core.ConsoleTest", "NetSpider.Core.ConsoleTest\NetSpider.Core.ConsoleTest.csproj", "{BCBB1069-4429-4624-B030-AFB442E1D522}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.Core.ConsoleTest", "NetSpider.Core.ConsoleTest\NetSpider.Core.ConsoleTest.csproj", "{BCBB1069-4429-4624-B030-AFB442E1D522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSpider.XieCheng", "NetSpider.XieCheng\NetSpider.XieCheng.csproj", "{82659C97-575C-4A76-9AF4-CAD16240E691}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{BCBB1069-4429-4624-B030-AFB442E1D522}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCBB1069-4429-4624-B030-AFB442E1D522}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCBB1069-4429-4624-B030-AFB442E1D522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82659C97-575C-4A76-9AF4-CAD16240E691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82659C97-575C-4A76-9AF4-CAD16240E691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82659C97-575C-4A76-9AF4-CAD16240E691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82659C97-575C-4A76-9AF4-CAD16240E691}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
