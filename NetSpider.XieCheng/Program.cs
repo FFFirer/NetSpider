@@ -8,6 +8,9 @@ using NetSpider.XieCheng.Models;
 using System.Net.Http;
 using Microsoft.Extensions.Http;
 using System.IO;
+using MySQL.Data.EntityFrameworkCore;
+using NetSpider.XieCheng.DB;
+using Microsoft.EntityFrameworkCore;
 
 namespace NetSpider.XieCheng
 {
@@ -20,7 +23,6 @@ namespace NetSpider.XieCheng
                 host.StartAsync();
                 host.WaitForShutdown();
             }
-            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
@@ -38,8 +40,8 @@ namespace NetSpider.XieCheng
                         c.BaseAddress = new Uri(XieChengProject.HomeUrl);
                         c.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36");
                         c.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-                        c.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
-                        c.DefaultRequestHeaders.Add("Accept-Language", "zh,zh-TW;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6");
+                        c.DefaultRequestHeaders.Add("Accept", "*/*");
+                        c.DefaultRequestHeaders.Add("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6");
                     }).ConfigurePrimaryHttpMessageHandler(msgHandler =>
                     {
                         var handler = new HttpClientHandler();
@@ -53,6 +55,7 @@ namespace NetSpider.XieCheng
                     var config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true).Build();
                     services.Configure<XieChengOptions>(config.GetSection("XieCheng"));
                     services.AddHostedService<XieCheng.Services.XieChengScrapyService>();
+                    //services.AddDbContext<CtripDbContext>(options => options.UseMySQL(config.GetConnectionString("Mysql")), ServiceLifetime.Singleton);
                 }).UseConsoleLifetime();
         }
     }

@@ -15,6 +15,12 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.NodeServices.HostingModels;
+using Newtonsoft.Json.Linq;
+using MySQL.Data.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
+using NetSpider.XieCheng.DB;
+using NetSpider.XieCheng.DB.Entities;
 
 namespace NetSpider.XieCheng.Services
 {
@@ -26,6 +32,7 @@ namespace NetSpider.XieCheng.Services
         private readonly INodeServices _nodeServices;
         private IServiceCollection _nodeServiceCollections = new ServiceCollection();
         private XieChengOptions _options;
+        //private CtripDbContext _db;
 
         [Obsolete]
         public XieChengScrapyService(IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory, IOptionsMonitor<XieChengOptions> options)
@@ -40,12 +47,16 @@ namespace NetSpider.XieCheng.Services
             });
             var sp = _nodeServiceCollections.BuildServiceProvider();
             _nodeServices = sp.GetRequiredService<INodeServices>();
+            //_db = ctripDb;
         }
 
         [Obsolete]
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            GetDataAsync(cancellationToken);
+            Task.Factory.StartNew(() =>
+            {
+                GetDataAsync(cancellationToken);
+            }, cancellationToken);
             return Task.CompletedTask;
         }
 
@@ -91,6 +102,7 @@ namespace NetSpider.XieCheng.Services
 
             requestMessage.Headers.Add("Cookie", _options.Headers.Cookie);
             requestMessage.Content = new StringContent(JsonConvert.SerializeObject(requestParams));
+            requestMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             requestMessage.Method = HttpMethod.Post;
 
             var responseMessage = await client.SendAsync(requestMessage);
@@ -98,12 +110,108 @@ namespace NetSpider.XieCheng.Services
             if (responseMessage.IsSuccessStatusCode)
             {
                 var respData = responseMessage.Content.ReadAsStringAsync().Result;
-                object jsonObj = JsonConvert.DeserializeObject(respData);
+                JObject jsonObj = JsonConvert.DeserializeObject<JObject>(respData);
+                Type type = jsonObj.GetType();
+                var routers = jsonObj["data"]["routeList"];
+
+                long TimeStamp = DateTime.Now.Ticks;
+
+                List<Flight> flights = new List<Flight>();
+                List<Cabin> cabins = new List<Cabin>();
+                List<Characteristic> characteristics = new List<Characteristic>();
+
+                foreach (var router in routers)
+                { 
+                    string flightId = router["legs"][0]["flightId"].ToString();
+                    var flightdata = router["legs"][0]["flight"];
+                    var cabindata = router["legs"][0]["cabins"];
+                    var characteristicdata = router["legs"][0]["characteristic"];
+
+                    // 先获取航班
+                    Flight flight = new Flight()
+                    {
+                        TimeTicks = TimeStamp,
+                        FlightId = flightId,
+                        FlightNumber = flightdata["flightNumber"].ToString(),
+                        SharedFlightNumber = flightdata["sharedFlightNumber"].ToString(),
+                        SharedFlightName = flightdata["sharedFlightName"]?.ToString() ?? "",
+                        AirlineCode = flightdata["airlineCode"].ToString(),
+                        AirlineName = flightdata["airlineName"].ToString(),
+                        CraftTypeCode = flightdata["craftTypeCode"].ToString(),
+                        CraftKind = flightdata["craftKind"].ToString(),
+                        CraftTypeName = flightdata["craftTypeName"].ToString(),
+                        CraftTypeKindDeisplayName = flightdata["craftTypeKindDisplayName"].ToString(),
+                        departureCityTlc = flightdata["departureAirportInfo"]["cityTlc"].ToString(),
+                        departureCityName = flightdata["departureAirportInfo"]["cityName"].ToString(),
+                        departureAirportTlc = flightdata["departureAirportInfo"]["airportTlc"].ToString(),
+                        departureAirportName = flightdata["departureAirportInfo"]["airportName"].ToString(),
+                        departureTerminalId = flightdata["departureAirportInfo"]["terminal"]["id"].ToString(),
+                        departureTerminalName = flightdata["departureAirportInfo"]["terminal"]["name"].ToString(),
+                        departureTerminalShortName = flightdata["departureAirportInfo"]["terminal"]["shortName"].ToString(),
+                        departureDate = flightdata["departureDate"].ToString(),
+                        arrivalCityTlc = flightdata["arrivalAirportInfo"]["cityTlc"].ToString(),
+                        arrivalCityName = flightdata["arrivalAirportInfo"]["cityName"].ToString(),
+                        arrivalAirportTlc = flightdata["arrivalAirportInfo"]["airportTlc"].ToString(),
+                        arrivalAirportName = flightdata["arrivalAirportInfo"]["airportName"].ToString(),
+                        arrivalTerminalId = flightdata["arrivalAirportInfo"]["terminal"]["id"].ToString(),
+                        arrivalTerminalName = flightdata["arrivalAirportInfo"]["terminal"]["name"].ToString(),
+                        arrivalTerminalShortName = flightdata["arrivalAirportInfo"]["terminal"]["shortName"].ToString(),
+                        arrivalDate = flightdata["arrivalDate"].ToString(),
+                        PunctualityRate = flightdata["punctualityRate"].ToString(),
+                        MealFlag = flightdata["mealFlag"].ToString(),
+                        MealType = flightdata["mealType"].ToString(),
+                        OilFee = flightdata["oilFee"].ToString(),
+                        Tax = flightdata["tax"].ToString(),
+                        DurationDays = flightdata["durationDays"].ToString(),
+                        StopInfo = flightdata["stopInfo"].ToString(),
+                        StopTimes = flightdata["stopTimes"].ToString(),
+                    };
+
+                    flights.Add(flight);
+
+                    foreach(var c in cabindata)
+                    {
+                        Cabin cabin = new Cabin
+                        {
+                            FlightId = flight.FlightId,
+                            LinkFlightId = flight.Id,
+                            CabinId = c["id"].ToString(),
+                            Pid = c["pid"].ToString(),
+                            SaleType = c["saleType"].ToString(),
+                            CabinClass = c["cabinClass"].ToString(),
+                            PriceClass = c["priceClass"].ToString(),
+                            Price = c["price"]["price"].ToString(),
+                            SalePrice = c["price"]["salePrice"].ToString(),
+                            PrintPrice = c["price"]["printPrice"].ToString(),
+                            FdPrice = c["price"]["fdPrice"].ToString(),
+                            Rate = c["price"]["rate"].ToString(),
+                            MealType = c["mealType"].ToString(),
+                        };
+
+                        cabins.Add(cabin);
+                    }
+
+                    Characteristic characteristic = new Characteristic
+                    {
+                        FlightId = flight.FlightId,
+                        LinkedFlightId = flight.Id,
+                        LowestPrice = characteristicdata["lowestPrice"].ToString(),
+                        LowestPriceId = characteristicdata["lowestPriceId"].ToString(),
+                        LowestCfPrice = characteristicdata["lowestCfPrice"].ToString(),
+                        LowestChildPrice = characteristicdata["lowestChildPrice"].ToString(),
+                        LowestChildCfPrice = characteristicdata["lowestChildCfPrice"].ToString(),
+                        LowestChildAdultPrice = characteristicdata["lowestChildAdultPrice"].ToString(),
+                        LowestChildAdultCfPrice = characteristicdata["lowestChildAdultCfPrice"].ToString(),
+                    };
+
+                    characteristics.Add(characteristic);
+                }
             }
             else
             {
                 _logger.LogError(responseMessage.StatusCode.ToString());
             }
+
         }
     }
 }
