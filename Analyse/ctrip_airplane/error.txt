@@ -1,0 +1,50 @@
+
+"Failed to start Node process. To resolve this:.\n\n[1] Ensure that Node.js is installed and can be found in one of the PATH directories.\n    
+Current PATH enviroment variable is: 
+D:\\Nuget;C:\\Program Files\\Python38\\Scripts\\;
+C:\\Program Files\\Python38\\;
+C:\\ProgramData\\Oracle\\Java\\javapath;C:\\Windows\\system32;
+C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;
+C:\\Windows\\System32\\OpenSSH\\;
+C:\\Program Files\\dotnet\\;
+C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\;
+C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\;
+C:\\Program Files\\TortoiseSVN\\bin;
+C:\\Program Files\\Microsoft VS Code\\bin;
+C:\\Program Files (x86)\\Microsoft SQL Server\\Client SDK\\ODBC\\130\\Tools\\Binn\\;
+C:\\Program Files (x86)\\Microsoft SQL Server\\140\\Tools\\Binn\\;
+C:\\Program Files (x86)\\Microsoft SQL Server\\140\\DTS\\Binn\\;
+C:\\Program Files (x86)\\Microsoft SQL Server\\140\\Tools\\Binn\\ManagementStudio\\;
+C:\\Program Files (x86)\\Microsoft SQL Server\\110\\DTS\\Binn\\;
+C:\\Program Files (x86)\\Microsoft SQL Server\\120\\DTS\\Binn\\;
+C:\\Program Files (x86)\\Microsoft SQL Server\\130\\DTS\\Binn\\;
+C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\;
+C:\\Program Files (x86)\\Microsoft SQL Server\\130\\Tools\\Binn\\;
+C:\\Program Files\\Microsoft SQL Server\\130\\DTS\\Binn\\;
+C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\130\\Tools\\Binn\\;
+C:\\Program Files\\nodejs\\;
+C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\DAL;
+C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\DAL;
+C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\IPT;
+C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\IPT;
+C:\\Program Files (x86)\\dotnet\\;
+C:\\Program Files\\Git\\cmd;
+C:\\Program Files\\Microsoft\\Web Platform Installer\\;
+C:\\Users\\watt.wang\\AppData\\Local\\Microsoft\\WindowsApps;
+C:\\Users\\watt.wang\\AppData\\Local\\Programs\\Git\\cmd;
+C:\\Users\\watt.wang\\.dotnet\\tools;C:\\Users\\watt.wang\\AppData\\Roaming\\npm\n    
+Make sure the Node executable is in one of those directories, or update your PATH.\n\n
+[2] See the InnerException for further details of the cause."
+
+at Microsoft.AspNetCore.NodeServices.HostingModels.OutOfProcessNodeInstance.LaunchNodeProcess(ProcessStartInfo startInfo)\r\n   
+at Microsoft.AspNetCore.NodeServices.HostingModels.OutOfProcessNodeInstance..ctor(String entryPointScript, String projectPath, String[] watchFileExtensions, String commandLineArguments, CancellationToken applicationStoppingToken, ILogger nodeOutputLogger, IDictionary`2 environmentVars, Int32 invocationTimeoutMilliseconds, Boolean launchWithDebugging, Int32 debuggingPort)\r\n   
+at Microsoft.AspNetCore.NodeServices.HostingModels.HttpNodeInstance..ctor(NodeServicesOptions options, Int32 port)\r\n   
+at Microsoft.AspNetCore.NodeServices.HostingModels.NodeServicesOptionsExtensions.<>c__DisplayClass0_0.<UseHttpHosting>b__0()\r\n   
+at Microsoft.AspNetCore.NodeServices.NodeServicesImpl.CreateNewNodeInstance()\r\n   
+at Microsoft.AspNetCore.NodeServices.NodeServicesImpl.GetOrCreateCurrentNodeInstance()\r\n   
+at Microsoft.AspNetCore.NodeServices.NodeServicesImpl.<InvokeExportWithPossibleRetryAsync>d__10`1.MoveNext()\r\n   
+at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   
+at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   
+at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   
+at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   
+at NetSpider.XieCheng.Services.XieChengScrapyService.<GetDataAsync>d__8.MoveNext() in D:\\Watt\\Repos\\NetSpider\\NetSpider.XieCheng\\Services\\XieChengScrapyService.cs:line 89"

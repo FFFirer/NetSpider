@@ -10,6 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using NetSpider.XieCheng.Models;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.NodeServices;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Linq;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.NodeServices.HostingModels;
 
 namespace NetSpider.XieCheng.Services
 {
@@ -17,13 +22,27 @@ namespace NetSpider.XieCheng.Services
     {
         private IHttpClientFactory _httpClients;
         private ILogger _logger;
+        [Obsolete]
+        private readonly INodeServices _nodeServices;
+        private IServiceCollection _nodeServiceCollections = new ServiceCollection();
+        private XieChengOptions _options;
 
-        public XieChengScrapyService(IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory)
+        [Obsolete]
+        public XieChengScrapyService(IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory, IOptionsMonitor<XieChengOptions> options)
         {
             _httpClients = httpClientFactory;
             _logger = loggerFactory.CreateLogger<XieChengScrapyService>();
+            _options = options.CurrentValue;
+            _nodeServiceCollections.AddNodeServices(options => 
+            {
+                options.NodeInstanceOutputLogger = loggerFactory.CreateLogger("nodeservices");
+                options.ProjectPath = Environment.CurrentDirectory;
+            });
+            var sp = _nodeServiceCollections.BuildServiceProvider();
+            _nodeServices = sp.GetRequiredService<INodeServices>();
         }
 
+        [Obsolete]
         public Task StartAsync(CancellationToken cancellationToken)
         {
             GetDataAsync(cancellationToken);
@@ -35,6 +54,7 @@ namespace NetSpider.XieCheng.Services
             return Task.CompletedTask;
         }
 
+        [Obsolete]
         public async void GetDataAsync(CancellationToken cancellationToken)
         {
             CancellationTokenSource tokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -44,8 +64,6 @@ namespace NetSpider.XieCheng.Services
 
             // 访问一下首页
             HttpResponseMessage resp = await client.GetAsync(XieChengProject.HomeUrl);
-
-            
 
             // 构造请求
             HttpRequestMessage requestMessage = new HttpRequestMessage();
@@ -67,13 +85,14 @@ namespace NetSpider.XieCheng.Services
             requestParams.hasBaby = false;
             requestParams.hasChild = false;
             requestParams.searchIndex = 1;
-            requestParams.token = "624e8a966a3b5d3298f64dd528ed4ef9";
+            string input = requestParams.airportParams.FirstOrDefault().dcity + requestParams.airportParams.FirstOrDefault().acity + requestParams.flightWay + "duew&^%5d54nc'KH";
+            requestParams.token = await _nodeServices.InvokeAsync<string>("./Scripts/demo", input);
 
-            var requestContent = new StringContent(JsonConvert.SerializeObject(requestParams));
+            requestMessage.Headers.Add("Cookie", _options.Headers.Cookie);
+            requestMessage.Content = new StringContent(JsonConvert.SerializeObject(requestParams));
+            requestMessage.Method = HttpMethod.Post;
 
-            
-
-            var responseMessage = await client.PostAsync(XieChengProject.AirlineApiUrl, requestContent);
+            var responseMessage = await client.SendAsync(requestMessage);
 
             if (responseMessage.IsSuccessStatusCode)
             {
