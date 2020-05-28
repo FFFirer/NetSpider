@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using NetSpider.XieCheng.Models;
 using System.Net.Http;
 using Microsoft.Extensions.Http;
+using System.IO;
 
 namespace NetSpider.XieCheng
 {
@@ -14,7 +15,12 @@ namespace NetSpider.XieCheng
     {
         static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().StartAsync();
+            using(var host = CreateHostBuilder(args).Build())
+            {
+                host.StartAsync();
+                host.WaitForShutdown();
+            }
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
@@ -34,7 +40,6 @@ namespace NetSpider.XieCheng
                         c.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
                         c.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
                         c.DefaultRequestHeaders.Add("Accept-Language", "zh,zh-TW;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6");
-                        c.DefaultRequestHeaders.Add("Connection", "keep-alive");
                     }).ConfigurePrimaryHttpMessageHandler(msgHandler =>
                     {
                         var handler = new HttpClientHandler();
@@ -45,6 +50,8 @@ namespace NetSpider.XieCheng
                         return handler;
                     }).Services.BuildServiceProvider();
 
+                    var config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true).Build();
+                    services.Configure<XieChengOptions>(config.GetSection("XieCheng"));
                     services.AddHostedService<XieCheng.Services.XieChengScrapyService>();
                 }).UseConsoleLifetime();
         }

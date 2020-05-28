@@ -1,0 +1,139 @@
+携程机票查询
+
+接口地址：https://flights.ctrip.com/itinerary/api/12808/products
+
+请求标头：
+:authority: flights.ctrip.com
+:method: POST
+:path: /itinerary/api/12808/products
+:scheme: https
+accept: */*
+accept-encoding: gzip, deflate, br
+accept-language: zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6
+content-length: 293
+content-type: application/json
+
+cookie: 
+==1==
+_abtest_userid=aa9d3694-bcd0-4a54-95d2-92a2f6ccd48f; 
+MKT_CKID=1589964882265.98xz8.uk3p; 
+MKT_Pagesource=PC; 
+_ga=GA1.2.466217771.1589964882; 
+_RF1=61.160.96.234; 
+_RSG=2wKILzQE5BA0yGnfCf4249; 
+_RDG=28cd858c7aa18c24a7017ef2243022c127; 
+_RGUID=a2c539af-5549-4e82-9102-129329c50f00; 
+DomesticUserHostCity=SHA%7c%c9%cf%ba%a3; 
+appFloatCnt=1; 
+_bfa=1.1589964873292.1eer4o.1.1590053284709.1590633164378.4.28; 
+_bfs=1.1; 
+_gid=GA1.2.1398610427.1590633167; 
+Session=smartlinkcode=U130727&smartlinklanguage=zh&SmartLinkKeyWord=&SmartLinkQuary=&SmartLinkHost=; 
+Union=AllianceID=4902&SID=130727&OUID=&createtime=1590633167&Expires=1591237967178; 
+MKT_CKID_LMT=1590633167255;
+__zpspc=9.4.1590633167.1590633167.1%233%7Ccn.bing.com%7C%7C%7C%7C%23; 
+_jzqco=%7C%7C%7C%7C1590633167487%7C1.653376867.1589964882247.1590053822717.1590633167248.1590053822717.1590633167248.undefined.0.0.21.21; 
+_bfi=p1%3D100101991%26p2%3D0%26v1%3D28%26v2%3D0; 
+
+==2==
+_abtest_userid=aa9d3694-bcd0-4a54-95d2-92a2f6ccd48f; 
+MKT_CKID=1589964882265.98xz8.uk3p; 
+MKT_Pagesource=PC; 
+_ga=GA1.2.466217771.1589964882; 
+_RF1=61.160.96.234; 
+_RSG=2wKILzQE5BA0yGnfCf4249; 
+_RDG=28cd858c7aa18c24a7017ef2243022c127; 
+_RGUID=a2c539af-5549-4e82-9102-129329c50f00; 
+DomesticUserHostCity=SHA%7c%c9%cf%ba%a3; 
+appFloatCnt=1; 
+_gid=GA1.2.1398610427.1590633167; 
+Session=smartlinkcode=U130727&smartlinklanguage=zh&SmartLinkKeyWord=&SmartLinkQuary=&SmartLinkHost=; 
+Union=AllianceID=4902&SID=130727&OUID=&createtime=1590633167&Expires=1591237967178; 
+MKT_CKID_LMT=1590633167255; 
+FD_SearchHistorty={"type":"S","data":"S%24%u4E0A%u6D77%28SHA%29%24SHA%242020-10-01%24%u4E4C%u9C81%u6728%u9F50%28URC%29%24URC%24%24%24"};
+_bfa=1.1589964873292.1eer4o.1.1590053284709.1590633164378.4.29; 
+_jzqco=%7C%7C%7C%7C1590633167487%7C1.653376867.1589964882247.1590633167248.1590633282411.1590633167248.1590633282411.undefined.0.0.22.22; 
+__zpspc=9.4.1590633167.1590633282.2%233%7Ccn.bing.com%7C%7C%7C%7C%23; 
+_bfi=p1%3D10320673302%26p2%3D100101991%26v1%3D29%26v2%3D28
+
+==3==
+_abtest_userid=aa9d3694-bcd0-4a54-95d2-92a2f6ccd48f; 
+MKT_CKID=1589964882265.98xz8.uk3p; 
+MKT_Pagesource=PC; 
+_ga=GA1.2.466217771.1589964882; 
+_RF1=61.160.96.234; 
+_RSG=2wKILzQE5BA0yGnfCf4249; 
+_RDG=28cd858c7aa18c24a7017ef2243022c127; 
+_RGUID=a2c539af-5549-4e82-9102-129329c50f00; 
+DomesticUserHostCity=SHA%7c%c9%cf%ba%a3; 
+appFloatCnt=1; 
+_gid=GA1.2.1398610427.1590633167; 
+Session=smartlinkcode=U130727&smartlinklanguage=zh&SmartLinkKeyWord=&SmartLinkQuary=&SmartLinkHost=; 
+Union=AllianceID=4902&SID=130727&OUID=&createtime=1590633167&Expires=1591237967178; 
+MKT_CKID_LMT=1590633167255; 
+FD_SearchHistorty={"type":"S","data":"S%24%u4E0A%u6D77%28SHA%29%24SHA%242020-10-01%24%u4E4C%u9C81%u6728%u9F50%28URC%29%24URC%24%24%24"}; 
+_jzqco=%7C%7C%7C%7C1590633167487%7C1.653376867.1589964882247.1590633282411.1590635376532.1590633282411.1590635376532.undefined.0.0.23.23; 
+__zpspc=9.5.1590635376.1590635376.1%233%7Ccn.bing.com%7C%7C%7C%7C%23; 
+_bfa=1.1589964873292.1eer4o.1.1590633164378.1590635374637.5.32; 
+_bfs=1.3; 
+_bfi=p1%3D10320673302%26p2%3D10320673302%26v1%3D32%26v2%3D31
+
+==4==
+_abtest_userid=aa9d3694-bcd0-4a54-95d2-92a2f6ccd48f; 
+MKT_CKID=1589964882265.98xz8.uk3p; 
+MKT_Pagesource=PC; 
+_ga=GA1.2.466217771.1589964882; 
+_RF1=61.160.96.234; 
+_RSG=2wKILzQE5BA0yGnfCf4249; 
+_RDG=28cd858c7aa18c24a7017ef2243022c127; 
+_RGUID=a2c539af-5549-4e82-9102-129329c50f00; 
+DomesticUserHostCity=SHA%7c%c9%cf%ba%a3; 
+appFloatCnt=1; 
+_gid=GA1.2.1398610427.1590633167; 
+Session=smartlinkcode=U130727&smartlinklanguage=zh&SmartLinkKeyWord=&SmartLinkQuary=&SmartLinkHost=; 
+Union=AllianceID=4902&SID=130727&OUID=&createtime=1590633167&Expires=1591237967178; 
+MKT_CKID_LMT=1590633167255; 
+FD_SearchHistorty={"type":"S","data":"S%24%u4E0A%u6D77%28SHA%29%24SHA%242020-10-01%24%u4E4C%u9C81%u6728%u9F50%28URC%29%24URC%24%24%24"}; 
+_bfa=1.1589964873292.1eer4o.1.1590633164378.1590635374637.5.33; 
+_bfs=1.4; 
+_jzqco=%7C%7C%7C%7C1590633167487%7C1.653376867.1589964882247.1590635376532.1590635567647.1590635376532.1590635567647.undefined.0.0.24.24; 
+__zpspc=9.5.1590635376.1590635567.2%233%7Ccn.bing.com%7C%7C%7C%7C%23; 
+_bfi=p1%3D10320673302%26p2%3D10320673302%26v1%3D33%26v2%3D32
+
+注解：MKT_CKID_LMT:时间戳，同Union中createtime
+
+
+FD_SearchHistorty={"type":"S","data":"S%24%u4E0A%u6D77%28SHA%29%24SHA%242020-10-01%24%u4E4C%u9C81%u6728%u9F50%28URC%29%24URC%24%24%24"}
+origin: https://flights.ctrip.com
+referer: https://flights.ctrip.com/itinerary/oneway/SHA-URC?date=2020-10-01
+sec-fetch-dest: empty
+sec-fetch-mode: cors
+sec-fetch-site: same-origin
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36 Edg/83.0.478.37
+
+Cookie分析：
+'Cookie': '_ga=GA1.2.1422723313.1585102199; 
+_abtest_userid=1c296dde-d639-424f-a007-cad9975fd8d5; 
+_gac_UA-3748357-1=1.1585220211.Cj0KCQjwpfHzBRCiARIsAHHzyZooiSyIMjmJ_FcCpRlSJuF8h1guzQ2LWkDVHs9kewmqkaawfORabUwaAtx5EALw_wcB; 
+_RSG=Hv4Xpi9jTt51tuATq36Hm8; _RDG=28329d014ec74124741c6df88a04cc43e6; 
+_RGUID=5dddb49b-3384-4e51-8c11-183d1d2b8dc1; 
+_gcl_aw=GCL.1585220214.Cj0KCQjwpfHzBRCiARIsAHHzyZooiSyIMjmJ_FcCpRlSJuF8h1guzQ2LWkDVHs9kewmqkaawfORabUwaAtx5EALw_wcB; 
+_gcl_dc=GCL.1585220214.Cj0KCQjwpfHzBRCiARIsAHHzyZooiSyIMjmJ_FcCpRlSJuF8h1guzQ2LWkDVHs9kewmqkaawfORabUwaAtx5EALw_wcB; 
+MKT_CKID=1585220215050.q49s4.k99w; 
+GUID=09031038111353360416; 
+_abtest_userid=19bf1f22-d393-4415-a4c6-66ef5a7a952d; 
+_RF1=163.125.73.52; 
+Session=smartlinkcode=U130026&smartlinklanguage=zh&SmartLinkKeyWord=&SmartLinkQuary=&SmartLinkHost=; 
+Union=AllianceID=4897&SID=130026&OUID=&createtime=1589199056&Expires=1589803855549; 
+MKT_CKID_LMT=1589199055579; 
+_gid=GA1.2.1657496412.1589199056; 
+MKT_Pagesource=PC; 
+FD_SearchHistorty={"type":"S","data":"S%24%u5929%u6D25%28TSN%29%24TSN%242020-05-11%24%u6DF1%u5733%28SZX%29%24SZX%24%24%24"}; 
+_gat=1; _jzqco=%7C%7C%7C%7C%7C1.1408634404.1585220215042.1589199055588.1589199119649.1589199055588.1589199119649.0.0.0.9.9; 
+__zpspc=9.4.1589199055.1589199119.2%232%7Cwww.baidu.com%7C%7C%7C%7C%23; 
+_bfa=1.1585102198351.9o303i.1.1586776655945.1589199052742.5.13.214073; 
+_bfs=1.4; 
+_bfi=p1%3D10320673302%26p2%3D10320673302%26v1%3D13%26v2%3D12'
+
+查询token加密规则
+参数：dcity，acity，flightWay, "duew&^%5d54nc'KH"
