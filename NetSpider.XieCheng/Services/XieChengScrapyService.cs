@@ -85,6 +85,7 @@ namespace NetSpider.XieCheng.Services
             requestParams.hasBaby = false;
             requestParams.hasChild = false;
             requestParams.searchIndex = 1;
+            // TODO: 加密的salt改成可配置的
             string input = requestParams.airportParams.FirstOrDefault().dcity + requestParams.airportParams.FirstOrDefault().acity + requestParams.flightWay + "duew&^%5d54nc'KH";
             requestParams.token = await _nodeServices.InvokeAsync<string>("./Scripts/demo", input);
 
