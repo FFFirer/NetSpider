@@ -9,7 +9,7 @@ namespace NetSpider.XieCheng.DB.Entities
     /// </summary>
     public class Airline
     {
-        public int Id { get; set; } 
+        public long Id { get; set; } 
         public string AirlineCode { get; set; }
         public string AirlineName { get; set; }
     }

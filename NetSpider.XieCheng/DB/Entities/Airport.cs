@@ -9,9 +9,10 @@ namespace NetSpider.XieCheng.DB.Entities
     /// </summary>
     public class Airport
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string CityTlc { get; set; }
         public string CityName { get; set; }
+        public string AirportTlc { get; set; }
         public string AirportName { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace NetSpider.XieCheng.DB.Entities
     /// </summary>
     public class Flight
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public long TimeTicks { get; set; }
         #region 航班信息
         public string FlightId { get; set; }

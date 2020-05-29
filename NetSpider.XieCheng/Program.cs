@@ -11,6 +11,7 @@ using System.IO;
 using MySQL.Data.EntityFrameworkCore;
 using NetSpider.XieCheng.DB;
 using Microsoft.EntityFrameworkCore;
+using Google.Protobuf.WellKnownTypes;
 
 namespace NetSpider.XieCheng
 {
@@ -52,10 +53,14 @@ namespace NetSpider.XieCheng
                         return handler;
                     }).Services.BuildServiceProvider();
 
-                    var config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true).Build();
+                    var config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json", optional: true)
+                        .AddJsonFile("tasks.json", optional: true).Build();
+                    services.Configure<TaskOptions>(config);
                     services.Configure<XieChengOptions>(config.GetSection("XieCheng"));
-                    services.AddHostedService<XieCheng.Services.XieChengScrapyService>();
-                    //services.AddDbContext<CtripDbContext>(options => options.UseMySQL(config.GetConnectionString("Mysql")), ServiceLifetime.Singleton);
+                    services.AddScoped<XieCheng.Services.XieChengScrapyService>();
+                    services.AddHostedService<XieCheng.HostedService.CtripTaskService>();
+                    services.AddDbContext<CtripDbContext>(options => options.UseMySQL(config.GetConnectionString("Mysql")));
                 }).UseConsoleLifetime();
         }
     }
