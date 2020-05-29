@@ -9,8 +9,8 @@ namespace NetSpider.XieCheng.DB.Entities
     /// </summary>
     public class Characteristic
     {
-        public int Id { get; set; }
-        public int LinkedFlightId { get; set; }
+        public long Id { get; set; }
+        public long LinkedFlightId { get; set; }
         public string FlightId { get; set; }
         public string LowestPrice { get; set; }
         public string LowestPriceId { get; set; }

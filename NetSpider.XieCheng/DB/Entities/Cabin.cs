@@ -9,8 +9,8 @@ namespace NetSpider.XieCheng.DB.Entities
     /// </summary>
     public class Cabin
     {
-        public int Id { get; set; }
-        public int LinkFlightId { get; set; }
+        public long Id { get; set; }
+        public long LinkFlightId { get; set; }
         public string FlightId { get; set; }
         public string CabinId { get; set; }
         public string Pid { get; set; }

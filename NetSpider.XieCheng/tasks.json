@@ -1,0 +1,46 @@
+{
+  "RunInterval": 6000000,
+  "signalflightplans": [
+    {
+      "flightWay": "Oneway",
+      "classType": "ALL",
+      "hasChild": false,
+      "hasBaby": false,
+      "searchIndex": 1,
+      "date": "2020-10-01",
+      "airportParams": [
+        {
+          "dcity": "SHA",
+          "acity": "URC",
+          "dcityname": "上海",
+          "acityname": "乌鲁木齐",
+          "date": "2020-10-01",
+          "dcityid": 2,
+          "acityid": 39
+        }
+      ],
+      "token": ""
+    },
+    {
+      "flightWay": "Oneway",
+      "classType": "ALL",
+      "hasChild": false,
+      "hasBaby": false,
+      "searchIndex": 1,
+      "date": "2020-10-02",
+      "airportParams": [
+        {
+          "dcity": "SHA",
+          "acity": "URC",
+          "dcityname": "上海",
+          "acityname": "乌鲁木齐",
+          "date": "2020-10-01",
+          "dcityid": 2,
+          "acityid": 39
+        }
+      ],
+      "token": ""
+    }
+  ],
+  "rangeflightplans": []
+}
