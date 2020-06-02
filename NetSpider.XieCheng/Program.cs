@@ -8,6 +8,8 @@ using NetSpider.XieCheng.Models;
 using System;
 using System.IO;
 using System.Net.Http;
+using NLog.Extensions.Logging;
+using NLog.Fluent;
 
 namespace NetSpider.XieCheng
 {
@@ -17,19 +19,22 @@ namespace NetSpider.XieCheng
         {
             using(var host = CreateHostBuilder(args).Build())
             {
-                host.StartAsync();
-                host.WaitForShutdown();
+                host.Run();
             }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
+                .UseWindowsService()
+                .UseSystemd()
                 .ConfigureServices((hostcontext, services) =>
                 {
                     services.AddLogging(logbuilder =>
                     {
-                        logbuilder.SetMinimumLevel(LogLevel.Information);
+                        logbuilder.ClearProviders();
+                        logbuilder.SetMinimumLevel(LogLevel.Warning);
+                        logbuilder.AddNLog("NLog.config");
                     });
 
                     services.AddHttpClient(XieChengProject.ProjectName, c =>
@@ -49,15 +54,18 @@ namespace NetSpider.XieCheng
                         return handler;
                     }).Services.BuildServiceProvider();
 
-                    var config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                    var config = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile("appsettings.json", optional: true)
                         .AddJsonFile("tasks.json", optional: true).Build();
+
                     services.Configure<TaskOptions>(config);
                     services.Configure<XieChengOptions>(config.GetSection("XieCheng"));
+
                     services.AddScoped<XieCheng.Services.XieChengScrapyService>();
                     services.AddHostedService<XieCheng.HostedService.CtripTaskService>();
                     services.AddDbContext<CtripDbContext>(options => options.UseMySQL(config.GetConnectionString("Mysql")));
-                }).UseConsoleLifetime();
+                });
         }
     }
 }

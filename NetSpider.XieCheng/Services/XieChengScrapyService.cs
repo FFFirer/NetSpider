@@ -26,10 +26,8 @@ namespace NetSpider.XieCheng.Services
         private XieChengOptions _options;
         private TaskOptions _tasks;
         private CtripDbContext _db;
-        private System.Timers.Timer timer;
         private HttpClient client;
         private bool running = false;
-        private CancellationTokenSource _cancelsource;
 
         [Obsolete]
         public XieChengScrapyService(IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory, IOptionsMonitor<XieChengOptions> options, IOptionsMonitor<TaskOptions> taskOptions, CtripDbContext ctripDb)
@@ -52,63 +50,39 @@ namespace NetSpider.XieCheng.Services
         [Obsolete]
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _cancelsource = new CancellationTokenSource();
-            CancellationToken token = _cancelsource.Token;
-
-            if(timer == null)
+            return Task.Factory.StartNew( async () =>
             {
-                timer = new System.Timers.Timer(1); // 立即执行
-            }
-            timer.AutoReset = false;
-
-            // 设置定时器
-            timer.Elapsed += async (source, args) =>
-            {
-                if (_tasks.signalflightplans.Count() > 0)
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    if(timer.Interval == 1) // 设置为1时立即执行，然后在第一次重新设置为设置值
+                    if (_tasks.signalflightplans.Count() > 0)
                     {
-                        timer.Interval = ((double)_tasks.RunInterval <= 600000.0 ? 600000.0 : (double)_tasks.RunInterval);   // 最小时间间隔10min
-                        timer.AutoReset = true;
-                    }
-                    // 判断是否前次任务是否完成
-                    if (running)
-                    {
-                        _logger.LogWarning("last task is running, this time cancelled.");
+                        // 判断是否前次任务是否完成
+                        if (running)
+                        {
+                            _logger.LogWarning("last task is running, this time cancelled.");
+                        }
+                        else
+                        {
+                            running = true;
+                            _logger.LogInformation("start.");
+                            foreach (var plan in _tasks.signalflightplans)
+                            {
+                                // 执行任务
+                                await SyncDataAsync(plan, cancellationToken);
+                                Thread.Sleep(2000);     // 每次抓取间隔两秒
+                            }
+                            _logger.LogInformation($"finish. signal flight plan {_tasks.signalflightplans.Count()} done.");
+                            running = false;
+                        }
                     }
                     else
                     {
-                        running = true;
-                        _logger.LogInformation("start.");
-                        foreach (var plan in _tasks.signalflightplans)
-                        {
-                            // 执行任务
-                            await SyncDataAsync(plan, token);
-                            Thread.Sleep(2000);     // 每次抓取间隔两秒
-                        }
-                        _logger.LogInformation($"finish. signal flight plan {_tasks.signalflightplans.Count()} done.");
-                        running = false;
+                        _logger.LogInformation("no task.");
                     }
+
+                    Thread.Sleep(new TimeSpan(0, _tasks.RunInterval, 0));
                 }
-                else
-                {
-                    _logger.LogInformation("no task.");
-                }
-
-            };
-
-            timer.Start();
-
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            if(_cancelsource != null)
-            {
-                _cancelsource.Cancel();
-            }
-            return Task.CompletedTask;
+            });
         }
 
         [Obsolete]
