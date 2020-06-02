@@ -1,5 +1,5 @@
 {
-  "RunInterval": 6000000,
+  "RunInterval": 10,
   "signalflightplans": [
     {
       "flightWay": "Oneway",
