@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.Core.ConsoleTest"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.XieCheng", "NetSpider.XieCheng\NetSpider.XieCheng.csproj", "{82659C97-575C-4A76-9AF4-CAD16240E691}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSpider.Core2", "NetSpider.Core2\NetSpider.Core2.csproj", "{C1A06439-A531-4F3C-9735-FA32B97D667A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.Core2", "NetSpider.Core2\NetSpider.Core2.csproj", "{C1A06439-A531-4F3C-9735-FA32B97D667A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSpider.Core2.ConsoleTest", "NetSpider.Core2.ConsoleTest\NetSpider.Core2.ConsoleTest.csproj", "{2FEF9548-0E1D-4D97-BFB4-DDFF625CC579}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.Core2.ConsoleTest", "NetSpider.Core2.ConsoleTest\NetSpider.Core2.ConsoleTest.csproj", "{2FEF9548-0E1D-4D97-BFB4-DDFF625CC579}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppeteerSharp.Example", "PuppeteerSharp.Example\PuppeteerSharp.Example.csproj", "{E4D74E29-4B67-4195-B0E1-E4CDC88E6A71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{2FEF9548-0E1D-4D97-BFB4-DDFF625CC579}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FEF9548-0E1D-4D97-BFB4-DDFF625CC579}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FEF9548-0E1D-4D97-BFB4-DDFF625CC579}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4D74E29-4B67-4195-B0E1-E4CDC88E6A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4D74E29-4B67-4195-B0E1-E4CDC88E6A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4D74E29-4B67-4195-B0E1-E4CDC88E6A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4D74E29-4B67-4195-B0E1-E4CDC88E6A71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
