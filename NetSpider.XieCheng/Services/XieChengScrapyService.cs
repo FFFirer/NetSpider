@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace NetSpider.XieCheng.Services
 {
@@ -28,9 +29,10 @@ namespace NetSpider.XieCheng.Services
         private CtripDbContext _db;
         private HttpClient client;
         private bool running = false;
+        private JavaScriptV8Manager _jsManager;
 
         [Obsolete]
-        public XieChengScrapyService(IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory, IOptionsMonitor<XieChengOptions> options, IOptionsMonitor<TaskOptions> taskOptions, CtripDbContext ctripDb)
+        public XieChengScrapyService(IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory, IOptionsMonitor<XieChengOptions> options, IOptionsMonitor<TaskOptions> taskOptions, CtripDbContext ctripDb, IServiceProvider services)
         {
             _httpClients = httpClientFactory;
             _logger = loggerFactory.CreateLogger<XieChengScrapyService>();
@@ -45,6 +47,11 @@ namespace NetSpider.XieCheng.Services
             _db = ctripDb;
             client = _httpClients.CreateClient(XieChengProject.ProjectName);
             _tasks = taskOptions.CurrentValue;
+            _jsManager = services.GetRequiredService<JavaScriptV8Manager>();
+            if(_jsManager != null)
+            {
+                _jsManager.LoadScript(Path.Combine(Directory.GetCurrentDirectory(), "Scripts", "demo2.js"));
+            }
         }
         
         [Obsolete]
@@ -94,7 +101,8 @@ namespace NetSpider.XieCheng.Services
 
             // TODO: 加密的salt改成可配置的
             string input = requestParams.airportParams.FirstOrDefault().dcity + requestParams.airportParams.FirstOrDefault().acity + requestParams.flightWay + "duew&^%5d54nc'KH";
-            requestParams.token = await _nodeServices.InvokeAsync<string>("./Scripts/demo", input);
+            //requestParams.token = await _nodeServices.InvokeAsync<string>("./Scripts/demo", input);
+            requestParams.token = _jsManager.Engine.Script.m(input);
 
             requestMessage.Headers.Add("Cookie", _options.Headers.Cookie);
             requestMessage.Content = new StringContent(JsonConvert.SerializeObject(requestParams));
