@@ -28,6 +28,7 @@ namespace NetSpider.XieCheng
             return Host.CreateDefaultBuilder(args)
                 .UseWindowsService()
                 .UseSystemd()
+
                 .ConfigureServices((hostcontext, services) =>
                 {
                     services.AddLogging(logbuilder =>
@@ -62,6 +63,7 @@ namespace NetSpider.XieCheng
                     services.Configure<TaskOptions>(config);
                     services.Configure<XieChengOptions>(config.GetSection("XieCheng"));
 
+                    services.AddSingleton<XieCheng.Services.JavaScriptV8Manager>();
                     services.AddScoped<XieCheng.Services.XieChengScrapyService>();
                     services.AddHostedService<XieCheng.HostedService.CtripTaskService>();
                     services.AddDbContext<CtripDbContext>(options => options.UseMySQL(config.GetConnectionString("Mysql")));
