@@ -7,7 +7,10 @@ namespace PuppeteerSharp.Example
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            ClearScriptDemo demo = new ClearScriptDemo();
+            //ClearScriptDemo demo = new ClearScriptDemo();
+            //demo.Execute();
+
+            JsEngineSwitcherDemo demo = new JsEngineSwitcherDemo();
             demo.Execute();
 
 
