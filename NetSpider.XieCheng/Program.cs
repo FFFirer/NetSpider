@@ -34,7 +34,7 @@ namespace NetSpider.XieCheng
                     services.AddLogging(logbuilder =>
                     {
                         logbuilder.ClearProviders();
-                        logbuilder.SetMinimumLevel(LogLevel.Warning);
+                        logbuilder.SetMinimumLevel(LogLevel.Information);
                         logbuilder.AddNLog("NLog.config");
                     });
 
