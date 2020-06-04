@@ -63,7 +63,7 @@ namespace NetSpider.XieCheng
                     services.Configure<TaskOptions>(config);
                     services.Configure<XieChengOptions>(config.GetSection("XieCheng"));
 
-                    services.AddSingleton<XieCheng.Services.JavaScriptV8Manager>();
+                    services.AddSingleton<XieCheng.Services.JsManager>();
                     services.AddScoped<XieCheng.Services.XieChengScrapyService>();
                     services.AddHostedService<XieCheng.HostedService.CtripTaskService>();
                     services.AddDbContext<CtripDbContext>(options => options.UseMySQL(config.GetConnectionString("Mysql")));

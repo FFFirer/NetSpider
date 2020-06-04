@@ -22,39 +22,34 @@ namespace NetSpider.XieCheng.Services
         private IHttpClientFactory _httpClients;
         private ILogger _logger;
         [Obsolete]
-        private readonly INodeServices _nodeServices;
+        //private readonly INodeServices _nodeServices;
         private IServiceCollection _nodeServiceCollections = new ServiceCollection();
         private XieChengOptions _options;
         private TaskOptions _tasks;
         private CtripDbContext _db;
         private HttpClient client;
         private bool running = false;
-        private JavaScriptV8Manager _jsManager;
+        private JsManager _jsManager;
 
-        [Obsolete]
         public XieChengScrapyService(IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory, IOptionsMonitor<XieChengOptions> options, IOptionsMonitor<TaskOptions> taskOptions, CtripDbContext ctripDb, IServiceProvider services)
         {
             _httpClients = httpClientFactory;
             _logger = loggerFactory.CreateLogger<XieChengScrapyService>();
             _options = options.CurrentValue;
-            _nodeServiceCollections.AddNodeServices(options => 
-            {
-                options.NodeInstanceOutputLogger = loggerFactory.CreateLogger("nodeservices");
-                options.ProjectPath = Environment.CurrentDirectory;
-            });
-            var sp = _nodeServiceCollections.BuildServiceProvider();
-            _nodeServices = sp.GetRequiredService<INodeServices>();
+            //_nodeServiceCollections.AddNodeServices(options => 
+            //{
+            //    options.NodeInstanceOutputLogger = loggerFactory.CreateLogger("nodeservices");
+            //    options.ProjectPath = Environment.CurrentDirectory;
+            //});
+            //var sp = _nodeServiceCollections.BuildServiceProvider();
+            //_nodeServices = sp.GetRequiredService<INodeServices>();
             _db = ctripDb;
             client = _httpClients.CreateClient(XieChengProject.ProjectName);
             _tasks = taskOptions.CurrentValue;
-            _jsManager = services.GetRequiredService<JavaScriptV8Manager>();
-            if(_jsManager != null)
-            {
-                _jsManager.LoadScript(Path.Combine(Directory.GetCurrentDirectory(), "Scripts", "demo2.js"));
-            }
+            _jsManager = services.GetRequiredService<JsManager>();
+            _jsManager.LoadScript(Path.Combine(Directory.GetCurrentDirectory(), "Scripts", "demo2.js"));
         }
         
-        [Obsolete]
         public Task StartAsync(CancellationToken cancellationToken)
         {
             return Task.Factory.StartNew( async () =>
@@ -92,7 +87,6 @@ namespace NetSpider.XieCheng.Services
             });
         }
 
-        [Obsolete]
         public async Task SyncDataAsync(XieChengProductRequest requestParams, CancellationToken cancellationToken)
         {
             // 构造请求
@@ -102,7 +96,7 @@ namespace NetSpider.XieCheng.Services
             // TODO: 加密的salt改成可配置的
             string input = requestParams.airportParams.FirstOrDefault().dcity + requestParams.airportParams.FirstOrDefault().acity + requestParams.flightWay + "duew&^%5d54nc'KH";
             //requestParams.token = await _nodeServices.InvokeAsync<string>("./Scripts/demo", input);
-            requestParams.token = _jsManager.Engine.Script.m(input);
+            requestParams.token = _jsManager.Call<string>("m", input);
 
             requestMessage.Headers.Add("Cookie", _options.Headers.Cookie);
             requestMessage.Content = new StringContent(JsonConvert.SerializeObject(requestParams));
