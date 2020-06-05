@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.EntityFrameworkCore;
-using MySQL.Data.EntityFrameworkCore;
-using NetSpider.XieCheng.DB.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace NetSpider.XieCheng.DB
+namespace NetSpider.Domain.Ctrip
 {
     public class CtripDbContext : DbContext
     {

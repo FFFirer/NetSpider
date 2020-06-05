@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NetSpider.XieCheng.DB;
-using NetSpider.XieCheng.DB.Entities;
 using NetSpider.XieCheng.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -14,6 +12,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
+using NetSpider.Domain.Ctrip;
 
 namespace NetSpider.XieCheng.Services
 {

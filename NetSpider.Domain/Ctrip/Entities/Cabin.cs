@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetSpider.XieCheng.DB.Entities
-{
+namespace NetSpider.Domain.Ctrip
+{ 
     /// <summary>
     /// 座舱信息
     /// </summary>

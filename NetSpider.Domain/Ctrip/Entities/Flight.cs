@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetSpider.XieCheng.DB.Entities
+namespace NetSpider.Domain.Ctrip
 {
     /// <summary>
     /// 航班信息

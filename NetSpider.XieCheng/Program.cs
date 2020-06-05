@@ -3,13 +3,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NetSpider.XieCheng.DB;
+using NetSpider.Domain.Ctrip;
 using NetSpider.XieCheng.Models;
+using NLog.Extensions.Logging;
 using System;
 using System.IO;
 using System.Net.Http;
-using NLog.Extensions.Logging;
-using NLog.Fluent;
 
 namespace NetSpider.XieCheng
 {
