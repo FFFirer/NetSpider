@@ -16,5 +16,6 @@ namespace NetSpider.Domain.Ctrip
         public string departureAirportName { get; set; }
         public string arrivalCityName { get; set; }
         public string arrivalAirportName { get; set; }
+        public string departureDate { get; set; }
     }
 }
