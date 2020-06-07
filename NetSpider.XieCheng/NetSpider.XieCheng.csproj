@@ -39,6 +39,9 @@
     <None Update="C:\Users\watt.wang\.nuget\packages\nlog.config\4.7.2\contentFiles\any\any\NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Scripts\demo2.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

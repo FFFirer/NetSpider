@@ -17,5 +17,11 @@
     <PackageReference Include="NLog.Schema" Version="4.7.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 
 </Project>
