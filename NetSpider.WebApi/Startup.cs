@@ -39,6 +39,7 @@ namespace NetSpider.WebApi
             services.ConfigureAutoMapper(); // ºØ÷–µƒ≈‰÷√AutoMapper
             services.AddDbContext<CtripDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("MysqlCtrip")));
             services.AddScoped<CtripServices>();
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +54,9 @@ namespace NetSpider.WebApi
             {
                 ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
             });
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
