@@ -34,6 +34,8 @@ namespace NetSpider.WebApi
                 logbuilder.ClearProviders();
                 logbuilder.AddNLog("NLog.config");
             });
+            services.AddCors(options => options.AddPolicy("domain",
+                builder => builder.AllowAnyOrigin().AllowAnyMethod()));
             services.AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.ConfigureAutoMapper(); // ºØ÷–µƒ≈‰÷√AutoMapper
@@ -54,7 +56,7 @@ namespace NetSpider.WebApi
             {
                 ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
             });
-
+            app.UseCors("domain");
             app.UseOpenApi();
             app.UseSwaggerUi3();
             app.UseAuthorization();
