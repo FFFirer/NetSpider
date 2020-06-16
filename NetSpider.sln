@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.XieCheng", "NetSp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppeteerSharp.Example", "PuppeteerSharp.Example\PuppeteerSharp.Example.csproj", "{E4D74E29-4B67-4195-B0E1-E4CDC88E6A71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSpider.Domain", "NetSpider.Domain\NetSpider.Domain.csproj", "{FFADBD45-6B71-4B5A-AA17-697478984F59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.Domain", "NetSpider.Domain\NetSpider.Domain.csproj", "{FFADBD45-6B71-4B5A-AA17-697478984F59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSpider.WebApi", "NetSpider.WebApi\NetSpider.WebApi.csproj", "{FD819BE7-F0BA-40FF-B21E-4F89DA1ABD43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSpider.WebApi", "NetSpider.WebApi\NetSpider.WebApi.csproj", "{FD819BE7-F0BA-40FF-B21E-4F89DA1ABD43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSpider.QuartzDemo", "NetSpider.QuartzDemo\NetSpider.QuartzDemo.csproj", "{118FDB7D-91F3-4573-9D6B-9F9C7286A174}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{FD819BE7-F0BA-40FF-B21E-4F89DA1ABD43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD819BE7-F0BA-40FF-B21E-4F89DA1ABD43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD819BE7-F0BA-40FF-B21E-4F89DA1ABD43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{118FDB7D-91F3-4573-9D6B-9F9C7286A174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{118FDB7D-91F3-4573-9D6B-9F9C7286A174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{118FDB7D-91F3-4573-9D6B-9F9C7286A174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{118FDB7D-91F3-4573-9D6B-9F9C7286A174}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
