@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>fffirer</Authors>
+    <Company>fffirer.top</Company>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

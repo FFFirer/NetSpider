@@ -12,7 +12,7 @@ namespace NetSpider.Core.Models
     {
         public string Content { get; set; }
 
-        private SpiderTask _task { get; set; }
+        private readonly SpiderTask _task;
 
         private IServiceProvider _provider { get; set; }
 
